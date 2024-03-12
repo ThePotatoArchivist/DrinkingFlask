@@ -61,6 +61,7 @@ public class DrinkingFlaskDataGenerator implements DataGeneratorEntrypoint {
 		public void generateTranslations(TranslationBuilder translationBuilder) {
 			translationBuilder.add(DrinkingFlask.DRINKING_FLASK, "Drinking Flask");
 			translationBuilder.add(DrinkingFlask.PHANTOM_DRINKING_FLASK, "Phantom Drinking Flask");
+			translationBuilder.add("item.drinkingflask.drinking_flask.fullness", "%s/%s");
 		}
 	}
 }
