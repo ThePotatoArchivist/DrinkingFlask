@@ -1,5 +1,6 @@
 package archives.tater.drinkingflask;
 
+import archives.tater.drinkingflask.item.DrinkingFlaskItem;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;

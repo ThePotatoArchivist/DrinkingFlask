@@ -1,6 +1,8 @@
-package archives.tater.drinkingflask;
+package archives.tater.drinkingflask.item;
 
+import archives.tater.drinkingflask.DrinkingFlask;
 import archives.tater.drinkingflask.client.FlaskTooltipData;
+import archives.tater.drinkingflask.compat.DrinkingFlaskCompat;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.item.TooltipData;
@@ -67,25 +69,27 @@ public class DrinkingFlaskItem extends Item {
         setContents(itemStack, contents);
     }
 
-    /**
-     * Mixin this method for compatibility!
-     */
+    // Only runs on server not client
     public static void applyEffect(ItemStack stack, World world, LivingEntity user) {
+        DrinkingFlaskCompat.applyEffect(stack, world, user);
+
         // Honey bottles need a special case because they add a glass bottle to the inventory
         if (stack.isOf(Items.HONEY_BOTTLE)) {
             user.eatFood(world, stack);
-            if (!world.isClient) {
-                user.removeStatusEffect(StatusEffects.POISON);
+            if (user instanceof ServerPlayerEntity serverPlayerEntity) {
+                Criteria.CONSUME_ITEM.trigger(serverPlayerEntity, stack);
+                serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(Items.HONEY_BOTTLE));
             }
+            user.removeStatusEffect(StatusEffects.POISON);
             return;
         }
         stack.finishUsing(world, user);
     }
 
-    /**
-     * Mixin this method for compatibility!
-     */
     public static ItemStack getLeftover(ItemStack stack) {
+        ItemStack compatResult = DrinkingFlaskCompat.getLeftover(stack);
+        if (compatResult != null) return compatResult;
+
         if (stack.getItem().hasRecipeRemainder())
             return stack.getRecipeRemainder();
         if (stack.isOf(Items.POTION))
@@ -147,10 +151,7 @@ public class DrinkingFlaskItem extends Item {
             NbtList contents = getContents(stack);
             if (contents.isEmpty()) return stack;
             int index = world.random.nextInt(contents.size());
-            applyEffect(
-                    ItemStack.fromNbt((NbtCompound) contents.get(index)),
-                    world,
-                    user);
+            applyEffect(ItemStack.fromNbt((NbtCompound) contents.get(index)), world, user);
             contents.remove(index);
         }
         return stack;
