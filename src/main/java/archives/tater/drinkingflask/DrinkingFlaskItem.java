@@ -7,19 +7,18 @@ import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
+import net.minecraft.util.*;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -121,7 +120,7 @@ public class DrinkingFlaskItem extends Item {
         Hand otherHand = hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND;
         ItemStack drinkStack = user.getStackInHand(otherHand);
 
-        if (!canInsert(drinkStack) || contents != null && contents.size() >= maxSize) {
+        if (!canInsert(drinkStack) || contents.size() >= maxSize) {
             if (contents.isEmpty()) {
                 return TypedActionResult.fail(flaskStack);
             }
@@ -167,6 +166,31 @@ public class DrinkingFlaskItem extends Item {
     }
 
     @Override
+    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
+        if (clickType != ClickType.RIGHT || !slot.canTakePartial(player)) return false;
+
+        if (getContents(stack).size() >= maxSize) return false;
+        if (!canInsert(otherStack)) return false;
+
+        cursorStackReference.set(insertStack(stack, otherStack, player.getWorld(), player));
+
+        return true;
+    }
+
+    @Override
+    public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
+        if (clickType != ClickType.RIGHT) return false;
+
+        ItemStack otherStack = slot.getStack();
+
+        if (getContents(stack).size() >= maxSize) return false;
+        if (!canInsert(otherStack)) return false;
+
+        slot.setStack(insertStack(stack, otherStack, player.getWorld(), player));
+        return true;
+    }
+
+    @Override
     public boolean isItemBarVisible(ItemStack stack) {
         return !getContents(stack).isEmpty();
     }
@@ -175,7 +199,7 @@ public class DrinkingFlaskItem extends Item {
     public int getItemBarStep(ItemStack stack) {
         NbtList contents = getContents(stack);
         int size = contents.size();
-        return 1 + Math.min(12 * size / maxSize, 12);
+        return Math.min(13 * size / maxSize, 13);
     }
 
     @Override
