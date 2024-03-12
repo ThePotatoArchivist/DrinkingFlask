@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "drinkingflask:item/phantom_drinking_flask"
+  }
+}
