@@ -98,7 +98,7 @@ public class DrinkingFlaskItem extends Item {
         addContents(flaskStack, drinkStack.copyWithCount(1));
 
         // TODO add custom sound effect
-        world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.PLAYERS, 1f, 0.2f * world.random.nextFloat() + 0.6f);
+        user.playSound(SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.PLAYERS, 1f, 0.2f * world.random.nextFloat() + 0.6f);
 
         if (user.getAbilities().creativeMode) {
             return drinkStack;
