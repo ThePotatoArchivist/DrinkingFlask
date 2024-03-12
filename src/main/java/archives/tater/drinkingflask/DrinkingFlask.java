@@ -20,11 +20,11 @@ public class DrinkingFlask implements ModInitializer {
 
 	public static final TagKey<Item> CAN_POUR_INTO_FLASK = TagKey.of(RegistryKeys.ITEM, new Identifier(MOD_ID, "can_pour_into_flask"));
 
-	public static final Item DRINKING_FLASK = Registry.register(Registries.ITEM, new Identifier(MOD_ID, "drinking_flask"), new DrinkingFlaskItem(false, new FabricItemSettings()
+	public static final Item DRINKING_FLASK = Registry.register(Registries.ITEM, new Identifier(MOD_ID, "drinking_flask"), new DrinkingFlaskItem(8, false, new FabricItemSettings()
 			.maxCount(1)
 	));
 
-	public static final Item PHANTOM_DRINKING_FLASK = Registry.register(Registries.ITEM, new Identifier(MOD_ID, "phantom_drinking_flask"), new DrinkingFlaskItem(true, new FabricItemSettings()
+	public static final Item PHANTOM_DRINKING_FLASK = Registry.register(Registries.ITEM, new Identifier(MOD_ID, "phantom_drinking_flask"), new DrinkingFlaskItem(8, true, new FabricItemSettings()
 			.maxCount(1)
 	));
 

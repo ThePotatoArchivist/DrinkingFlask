@@ -34,10 +34,11 @@ public class DrinkingFlaskItem extends Item {
 
     private final boolean showInTooltip;
     // TODO Make configurable later
-    public final int maxSize = 8;
+    public final int maxSize;
 
-    public DrinkingFlaskItem(boolean showInTooltip, Settings settings) {
+    public DrinkingFlaskItem(int maxSize, boolean showInTooltip, Settings settings) {
         super(settings);
+        this.maxSize = maxSize;
         this.showInTooltip = showInTooltip;
     }
 
