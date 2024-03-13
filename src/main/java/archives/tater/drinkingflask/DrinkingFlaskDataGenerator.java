@@ -1,5 +1,6 @@
 package archives.tater.drinkingflask;
 
+import com.nhoryzon.mc.farmersdelight.registry.ItemsRegistry;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -12,10 +13,13 @@ import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -36,7 +40,21 @@ public class DrinkingFlaskDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		protected void configure(RegistryWrapper.WrapperLookup arg) {
-			getOrCreateTagBuilder(DrinkingFlask.CAN_POUR_INTO_FLASK);
+			List<Item> canPourItems = List.of(
+					ItemsRegistry.TOMATO_SAUCE.get(),
+					ItemsRegistry.BONE_BROTH.get(),
+					ItemsRegistry.BAKED_COD_STEW.get(),
+					ItemsRegistry.BEEF_STEW.get(),
+					ItemsRegistry.FISH_STEW.get(),
+					ItemsRegistry.CHICKEN_SOUP.get(),
+					ItemsRegistry.NOODLE_SOUP.get(),
+					ItemsRegistry.PUMPKIN_SOUP.get(),
+					ItemsRegistry.VEGETABLE_SOUP.get(),
+					ItemsRegistry.GLOW_BERRY_CUSTARD.get()
+			);
+
+			FabricTagProvider<Item>.FabricTagBuilder pourTag = getOrCreateTagBuilder(DrinkingFlask.CAN_POUR_INTO_FLASK);
+			canPourItems.forEach(item -> pourTag.addOptional(Registries.ITEM.getId(item)));
 		}
 	}
 

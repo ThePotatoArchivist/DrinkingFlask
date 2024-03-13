@@ -22,6 +22,9 @@ repositories {
 	maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
 	maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
 	maven { url = "https://maven.tterrag.com/" } // Flywheel
+	maven { url = 'https://maven.shedaniel.me/' }
+	maven { url = 'https://api.modrinth.com/maven' }
+	maven { url = 'https://maven.terraformersmc.com/' }
 }
 
 loom {
@@ -55,6 +58,7 @@ dependencies {
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 
 	modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}") // Transitive Dependencies
+	modImplementation "maven.modrinth:farmers-delight-fabric:${project.delight_version}"
 }
 
 processResources {
@@ -83,6 +87,10 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
+}
+
+runDatagen {
+	jvmArgs "-Dfabric-api.datagen.modid=${project.archives_base_name}"
 }
 
 // configure the maven publication

@@ -71,7 +71,7 @@ public class DrinkingFlaskItem extends Item {
 
     // Only runs on server not client
     public static void applyEffect(ItemStack stack, World world, LivingEntity user) {
-        DrinkingFlaskCompat.applyEffect(stack, world, user);
+        if (DrinkingFlaskCompat.applyEffect(stack, world, user)) return;
 
         // Honey bottles need a special case because they add a glass bottle to the inventory
         if (stack.isOf(Items.HONEY_BOTTLE)) {
