@@ -15,11 +15,9 @@ import net.minecraft.util.collection.DefaultedList;
 public class FlaskTooltipComponent implements TooltipComponent {
     public static final Identifier TEXTURE = new Identifier(DrinkingFlask.MOD_ID, "textures/gui/slot.png");
     private final DefaultedList<ItemStack> inventory;
-    private final int occupancy;
 
     public FlaskTooltipComponent(FlaskTooltipData data) {
         inventory = data.inventory();
-        occupancy = data.bundleOccupancy();
     }
 
     @Override

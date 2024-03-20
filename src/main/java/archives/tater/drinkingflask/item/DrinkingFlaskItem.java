@@ -46,7 +46,7 @@ public class DrinkingFlaskItem extends Item {
 
     public static boolean canInsert(ItemStack itemStack) {
         return !(itemStack.getItem() instanceof DrinkingFlaskItem) && (
-                itemStack.getUseAction() == UseAction.DRINK ||
+                (itemStack.getUseAction() == UseAction.DRINK && !(itemStack.getItem() instanceof ThrowablePotionItem)) ||
                 itemStack.getItem() instanceof StewItem ||
                 itemStack.getItem() instanceof SuspiciousStewItem ||
                 itemStack.isIn(DrinkingFlask.CAN_POUR_INTO_FLASK)
@@ -223,6 +223,6 @@ public class DrinkingFlaskItem extends Item {
         if (contents.isEmpty()) return super.getTooltipData(stack);
         DefaultedList<ItemStack> contentsList = DefaultedList.of();
         contents.forEach(nbt -> contentsList.add(ItemStack.fromNbt((NbtCompound) nbt)));
-        return Optional.of(new FlaskTooltipData(contentsList, contents.size()));
+        return Optional.of(new FlaskTooltipData(contentsList));
     }
 }
