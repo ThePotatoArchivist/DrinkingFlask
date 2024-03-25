@@ -15,6 +15,7 @@ import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
@@ -100,18 +101,20 @@ public class DrinkingFlaskDataGenerator implements DataGeneratorEntrypoint {
 		public void generate(Consumer<RecipeJsonProvider> exporter) {
 			ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, DrinkingFlask.DRINKING_FLASK)
 					.pattern(" % ")
-					.pattern("# #")
+					.pattern("#$#")
 					.pattern(" # ")
 					.input('%', Items.IRON_INGOT)
-					.input('#', Items.LEATHER)
+					.input('$', Items.HONEYCOMB)
+					.input('#', Ingredient.ofItems(Items.LEATHER, Items.RABBIT_HIDE))
 					.criterion(hasItem(Items.POTION), conditionsFromItem(Items.POTION))
 					.offerTo(exporter);
 
 			ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, DrinkingFlask.PHANTOM_DRINKING_FLASK)
 					.pattern(" % ")
-					.pattern("# #")
+					.pattern("#$#")
 					.pattern(" # ")
 					.input('%', Items.IRON_INGOT)
+					.input('$', Items.HONEYCOMB)
 					.input('#', Items.PHANTOM_MEMBRANE)
 					.criterion(hasItem(DrinkingFlask.DRINKING_FLASK), conditionsFromItem(DrinkingFlask.DRINKING_FLASK))
 					.offerTo(exporter);

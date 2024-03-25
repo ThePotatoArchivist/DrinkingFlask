@@ -5,13 +5,16 @@
     "#": {
       "item": "minecraft:phantom_membrane"
     },
+    "$": {
+      "item": "minecraft:honeycomb"
+    },
     "%": {
       "item": "minecraft:iron_ingot"
     }
   },
   "pattern": [
     " % ",
-    "# #",
+    "#$#",
     " # "
   ],
   "result": {
