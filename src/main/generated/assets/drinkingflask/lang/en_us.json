@@ -1,5 +1,6 @@
 {
   "item.drinkingflask.drinking_flask": "Drinking Flask",
   "item.drinkingflask.drinking_flask.fullness": "%s/%s",
-  "item.drinkingflask.phantom_drinking_flask": "Phantom Drinking Flask"
+  "item.drinkingflask.phantom_drinking_flask": "Phantom Drinking Flask",
+  "tag.item.drinkingflask.can_pour_into_flask": "Drinking Flask Drinks"
 }
