@@ -2,12 +2,10 @@ package archives.tater.drinkingflask.item;
 
 import archives.tater.drinkingflask.DrinkingFlask;
 import archives.tater.drinkingflask.client.FlaskTooltipData;
-import archives.tater.drinkingflask.compat.DrinkingFlaskCompat;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
@@ -45,12 +43,7 @@ public class DrinkingFlaskItem extends Item {
     }
 
     public static boolean canInsert(ItemStack itemStack) {
-        return !(itemStack.getItem() instanceof DrinkingFlaskItem) && (
-                (itemStack.getUseAction() == UseAction.DRINK && !(itemStack.getItem() instanceof ThrowablePotionItem)) ||
-                itemStack.getItem() instanceof StewItem ||
-                itemStack.getItem() instanceof SuspiciousStewItem ||
-                itemStack.isIn(DrinkingFlask.CAN_POUR_INTO_FLASK)
-        );
+        return !(itemStack.getItem() instanceof DrinkingFlaskItem) && itemStack.isIn(DrinkingFlask.CAN_POUR_INTO_FLASK);
     }
 
     public static NbtList getContents(ItemStack itemStack) {
@@ -71,31 +64,18 @@ public class DrinkingFlaskItem extends Item {
 
     // Only runs on server not client
     public static void applyEffect(ItemStack stack, World world, LivingEntity user) {
-        if (DrinkingFlaskCompat.applyEffect(stack, world, user)) return;
-
-        // Honey bottles need a special case because they add a glass bottle to the inventory
-        if (stack.isOf(Items.HONEY_BOTTLE)) {
-            user.eatFood(world, stack);
-            if (user instanceof ServerPlayerEntity serverPlayerEntity) {
-                Criteria.CONSUME_ITEM.trigger(serverPlayerEntity, stack);
-                serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(Items.HONEY_BOTTLE));
-            }
-            user.removeStatusEffect(StatusEffects.POISON);
-            return;
-        }
         stack.finishUsing(world, user);
     }
 
     public static ItemStack getLeftover(ItemStack stack) {
-        ItemStack compatResult = DrinkingFlaskCompat.getLeftover(stack);
-        if (compatResult != null) return compatResult;
-
         if (stack.getItem().hasRecipeRemainder())
             return stack.getRecipeRemainder();
-        if (stack.isOf(Items.POTION))
+        if (stack.isIn(DrinkingFlask.BOTTLE_REMAINDER))
             return Items.GLASS_BOTTLE.getDefaultStack();
-        if (stack.getItem() instanceof StewItem || stack.getItem() instanceof SuspiciousStewItem)
+        if (stack.isIn(DrinkingFlask.BOWL_REMAINDER))
             return Items.BOWL.getDefaultStack();
+        if (stack.isIn(DrinkingFlask.BUCKET_REMAINDER))
+            return Items.BUCKET.getDefaultStack();
         return ItemStack.EMPTY;
     }
 

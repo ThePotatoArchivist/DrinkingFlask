@@ -39,7 +39,7 @@
         "fabric-api": "*"
     },
     "suggests": {
-        "create": "0.5.1-f-build.1335+mc1.20.1",
-        "farmersdelight": "1.4.3"
+        "create": "*",
+        "farmersdelight": "*"
     }
 }

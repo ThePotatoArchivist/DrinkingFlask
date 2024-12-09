@@ -1,17 +1,10 @@
 {
   "replace": false,
   "values": [
-    "minecraft:potion",
-    "minecraft:milk_bucket",
-    "minecraft:honey_bottle",
     "minecraft:mushroom_stew",
     "minecraft:rabbit_stew",
     "minecraft:beetroot_soup",
     "minecraft:suspicious_stew",
-    {
-      "id": "farmersdelight:glow_berry_custard",
-      "required": false
-    },
     {
       "id": "farmersdelight:tomato_sauce",
       "required": false

@@ -22,6 +22,9 @@ public class DrinkingFlask implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	public static final TagKey<Item> CAN_POUR_INTO_FLASK = TagKey.of(RegistryKeys.ITEM, new Identifier(MOD_ID, "can_pour_into_flask"));
+	public static final TagKey<Item> BOTTLE_REMAINDER = TagKey.of(RegistryKeys.ITEM, new Identifier(MOD_ID, "remainder/glass_bottle"));
+	public static final TagKey<Item> BOWL_REMAINDER = TagKey.of(RegistryKeys.ITEM, new Identifier(MOD_ID, "remainder/bowl"));
+	public static final TagKey<Item> BUCKET_REMAINDER = TagKey.of(RegistryKeys.ITEM, new Identifier(MOD_ID, "remainder/bucket"));
 
 	public static final Item DRINKING_FLASK = Registry.register(Registries.ITEM, new Identifier(MOD_ID, "drinking_flask"), new DrinkingFlaskItem(8, false, new FabricItemSettings()
 			.maxCount(1)
