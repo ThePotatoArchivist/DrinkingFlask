@@ -3,11 +3,27 @@
   "values": [
     "minecraft:potion",
     {
-      "id": "farmersdelight:glow_berry_custard",
+      "id": "create:builders_tea",
       "required": false
     },
     {
-      "id": "create:builders_tea",
+      "id": "farmersdelight:apple_cider",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:melon_juice",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:hot_cocoa",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:milk_bottle",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:glow_berry_custard",
       "required": false
     }
   ]

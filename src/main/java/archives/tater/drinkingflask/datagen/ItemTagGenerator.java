@@ -8,6 +8,7 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
@@ -16,9 +17,13 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
         super(output, completableFuture);
     }
 
+    private static List<Identifier> ids(String name, String... paths) {
+        return Stream.of(paths).map(path -> new Identifier(name, path)).toList();
+    }
+
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
-        var farmersDelightStews = Stream.of(
+        var farmersDelightStews = ids("farmersdelight",
                 "tomato_sauce",
                 "bone_broth",
                 "baked_cod_stew",
@@ -28,7 +33,15 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
                 "noodle_soup",
                 "pumpkin_soup",
                 "vegetable_soup"
-        ).map(path -> new Identifier("farmersdelight", path)).toList();
+        );
+
+        var farmersDelightDrinks = ids("farmersdelight",
+                "apple_cider",
+                "melon_juice",
+                "hot_cocoa",
+                "milk_bottle",
+                "glow_berry_custard"
+        );
 
         Item[] vanillaStews = {
                 Items.MUSHROOM_STEW,
@@ -38,19 +51,18 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
         };
 
         Identifier buildersTea = new Identifier("create", "builders_tea");
-        Identifier glowBerryCustard = new Identifier("farmersdelight", "glow_berry_custard");
 
         var pourTag = getOrCreateTagBuilder(DrinkingFlask.CAN_POUR_INTO_FLASK)
                 .add(Items.POTION, Items.MILK_BUCKET, Items.HONEY_BOTTLE)
                 .add(vanillaStews)
-                .addOptional(glowBerryCustard)
                 .addOptional(buildersTea);
         farmersDelightStews.forEach(pourTag::addOptional);
+        farmersDelightDrinks.forEach(pourTag::addOptional);
 
-        getOrCreateTagBuilder(DrinkingFlask.BOTTLE_REMAINDER)
+        var bottleTag = getOrCreateTagBuilder(DrinkingFlask.BOTTLE_REMAINDER)
                 .add(Items.POTION)
-                .addOptional(glowBerryCustard)
                 .addOptional(buildersTea);
+        farmersDelightDrinks.forEach(bottleTag::addOptional);
 
         var bowlTag = getOrCreateTagBuilder(DrinkingFlask.BOWL_REMAINDER)
                 .add(vanillaStews);
@@ -58,8 +70,9 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
 
         getOrCreateTagBuilder(DrinkingFlask.BUCKET_REMAINDER);
 
-        getOrCreateTagBuilder(DrinkingFlask.DOUBLE_SIZE)
-                .add(Items.POTION)
-                .addOptional(buildersTea);
+        var doubleTag = getOrCreateTagBuilder(DrinkingFlask.DOUBLE_SIZE)
+                .add(Items.POTION, Items.MILK_BUCKET)
+                .addOptional(buildersTea)
+                .addOptional(new Identifier("farmersdelight", "apple_cider")); // regen
     }
 }

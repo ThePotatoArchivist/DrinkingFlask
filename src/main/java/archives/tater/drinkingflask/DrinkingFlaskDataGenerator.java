@@ -16,5 +16,4 @@ public class DrinkingFlaskDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(LangGenerator::new);
 		pack.addProvider(RecipeGenerator::new);
 	}
-
 }
