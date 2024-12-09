@@ -158,7 +158,7 @@ public class DrinkingFlaskItem extends Item {
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
         if (clickType != ClickType.RIGHT || !slot.canTakePartial(player)) return false;
 
-        if (getSize(stack) >= maxSize) return false;
+        if (getSize(stack) + sizeOfDrink(otherStack) > maxSize) return false;
         if (!canInsert(otherStack)) return false;
 
         cursorStackReference.set(insertStack(stack, otherStack, player.getWorld(), player));
@@ -172,16 +172,20 @@ public class DrinkingFlaskItem extends Item {
 
         ItemStack otherStack = slot.getStack();
 
-        if (getSize(stack) >= maxSize) return false;
+        if (getSize(stack) + sizeOfDrink(otherStack) > maxSize) return false;
         if (!canInsert(otherStack)) return false;
 
         slot.setStack(insertStack(stack, otherStack, player.getWorld(), player));
         return true;
     }
 
+    private int sizeOfDrink(ItemStack stack) {
+        return stack.isIn(DrinkingFlask.DOUBLE_SIZE) ? 2 : 1;
+    }
+
     public int getSize(ItemStack stack) {
         return getContents(stack).stream()
-                .mapToInt(nbt -> ItemStack.fromNbt((NbtCompound) nbt).isIn(DrinkingFlask.DOUBLE_SIZE) ? 2 : 1)
+                .mapToInt(nbt -> sizeOfDrink(ItemStack.fromNbt((NbtCompound) nbt)))
                 .sum();
     }
 
