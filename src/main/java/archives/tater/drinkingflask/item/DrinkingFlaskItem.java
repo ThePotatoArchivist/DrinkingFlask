@@ -9,7 +9,10 @@ import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsage;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -69,17 +72,17 @@ public class DrinkingFlaskItem extends Item {
         stack.finishUsing(world, user);
     }
 
-    public static ItemStack getLeftover(ItemStack stack) {
+    public static ItemStack getRemainder(ItemStack stack) {
         if (DrinkingFlaskRegistryImpl.hasRemainder(stack))
             return DrinkingFlaskRegistryImpl.getRemainder(stack);
-        if (stack.getItem().hasRecipeRemainder())
-            return stack.getRecipeRemainder();
         if (stack.isIn(DrinkingFlask.BOTTLE_REMAINDER))
             return Items.GLASS_BOTTLE.getDefaultStack();
         if (stack.isIn(DrinkingFlask.BOWL_REMAINDER))
             return Items.BOWL.getDefaultStack();
         if (stack.isIn(DrinkingFlask.BUCKET_REMAINDER))
             return Items.BUCKET.getDefaultStack();
+        if (stack.getItem().hasRecipeRemainder())
+            return stack.getRecipeRemainder();
         return ItemStack.EMPTY;
     }
 
@@ -94,11 +97,11 @@ public class DrinkingFlaskItem extends Item {
         }
 
         if (drinkStack.getCount() <= 1) {
-            return getLeftover(drinkStack);
+            return getRemainder(drinkStack);
         }
 
         drinkStack.decrement(1);
-        user.giveItemStack(getLeftover(drinkStack));
+        user.giveItemStack(getRemainder(drinkStack));
         return drinkStack;
     }
 
@@ -109,7 +112,7 @@ public class DrinkingFlaskItem extends Item {
         Hand otherHand = hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND;
         ItemStack drinkStack = user.getStackInHand(otherHand);
 
-        if (!canInsert(drinkStack) || contents.size() >= maxSize) {
+        if (!canInsert(drinkStack) || getSize(flaskStack) >= maxSize) {
             if (contents.isEmpty()) {
                 return TypedActionResult.fail(flaskStack);
             }
@@ -155,7 +158,7 @@ public class DrinkingFlaskItem extends Item {
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
         if (clickType != ClickType.RIGHT || !slot.canTakePartial(player)) return false;
 
-        if (getContents(stack).size() >= maxSize) return false;
+        if (getSize(stack) >= maxSize) return false;
         if (!canInsert(otherStack)) return false;
 
         cursorStackReference.set(insertStack(stack, otherStack, player.getWorld(), player));
@@ -169,11 +172,17 @@ public class DrinkingFlaskItem extends Item {
 
         ItemStack otherStack = slot.getStack();
 
-        if (getContents(stack).size() >= maxSize) return false;
+        if (getSize(stack) >= maxSize) return false;
         if (!canInsert(otherStack)) return false;
 
         slot.setStack(insertStack(stack, otherStack, player.getWorld(), player));
         return true;
+    }
+
+    public int getSize(ItemStack stack) {
+        return getContents(stack).stream()
+                .mapToInt(nbt -> ItemStack.fromNbt((NbtCompound) nbt).isIn(DrinkingFlask.DOUBLE_SIZE) ? 2 : 1)
+                .sum();
     }
 
     @Override
@@ -183,9 +192,7 @@ public class DrinkingFlaskItem extends Item {
 
     @Override
     public int getItemBarStep(ItemStack stack) {
-        NbtList contents = getContents(stack);
-        int size = contents.size();
-        return Math.min(13 * size / maxSize, 13);
+        return Math.min(13 * getSize(stack) / maxSize, 13);
     }
 
     @Override
@@ -195,8 +202,7 @@ public class DrinkingFlaskItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        int size = getContents(stack).size();
-        tooltip.add(Text.translatable("item.drinkingflask.drinking_flask.fullness", size, maxSize).formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("item.drinkingflask.drinking_flask.fullness", getSize(stack), maxSize).formatted(Formatting.GRAY));
     }
 
     @Override

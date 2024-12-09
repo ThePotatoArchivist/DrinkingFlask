@@ -13,6 +13,10 @@
       "required": false
     },
     {
+      "id": "create:builders_tea",
+      "required": false
+    },
+    {
       "id": "farmersdelight:tomato_sauce",
       "required": false
     },

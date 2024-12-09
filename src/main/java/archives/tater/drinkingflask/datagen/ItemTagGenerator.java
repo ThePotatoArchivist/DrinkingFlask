@@ -37,21 +37,29 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
                 Items.SUSPICIOUS_STEW
         };
 
+        Identifier buildersTea = new Identifier("create", "builders_tea");
+        Identifier glowBerryCustard = new Identifier("farmersdelight", "glow_berry_custard");
+
         var pourTag = getOrCreateTagBuilder(DrinkingFlask.CAN_POUR_INTO_FLASK)
                 .add(Items.POTION, Items.MILK_BUCKET, Items.HONEY_BOTTLE)
                 .add(vanillaStews)
-                .addOptional(new Identifier("farmersdelight", "glow_berry_custard"));
+                .addOptional(glowBerryCustard)
+                .addOptional(buildersTea);
         farmersDelightStews.forEach(pourTag::addOptional);
 
         getOrCreateTagBuilder(DrinkingFlask.BOTTLE_REMAINDER)
                 .add(Items.POTION)
-                .addOptional(new Identifier("farmersdelight", "glow_berry_custard"))
-                .addOptional(new Identifier("create", "builders_tea"));
+                .addOptional(glowBerryCustard)
+                .addOptional(buildersTea);
 
         var bowlTag = getOrCreateTagBuilder(DrinkingFlask.BOWL_REMAINDER)
                 .add(vanillaStews);
         farmersDelightStews.forEach(bowlTag::addOptional);
 
         getOrCreateTagBuilder(DrinkingFlask.BUCKET_REMAINDER);
+
+        getOrCreateTagBuilder(DrinkingFlask.DOUBLE_SIZE)
+                .add(Items.POTION)
+                .addOptional(buildersTea);
     }
 }

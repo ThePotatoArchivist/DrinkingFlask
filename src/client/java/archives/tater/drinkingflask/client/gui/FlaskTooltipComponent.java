@@ -15,6 +15,7 @@ import net.minecraft.util.collection.DefaultedList;
 public class FlaskTooltipComponent implements TooltipComponent {
     public static final Identifier TEXTURE = new Identifier(DrinkingFlask.MOD_ID, "textures/gui/slot.png");
     private final DefaultedList<ItemStack> inventory;
+    private static final int MAX_COLUMNS = 8;
 
     public FlaskTooltipComponent(FlaskTooltipData data) {
         inventory = data.inventory();
@@ -22,19 +23,19 @@ public class FlaskTooltipComponent implements TooltipComponent {
 
     @Override
     public int getHeight() {
-        return 18 + 4;
+        return 18 * ((inventory.size() - 1) / MAX_COLUMNS + 1) + 4;
     }
 
     @Override
     public int getWidth(TextRenderer textRenderer) {
-        return 18 * inventory.size();
+        return 18 * Math.min(inventory.size(), MAX_COLUMNS);
     }
 
     @Override
     public void drawItems(TextRenderer textRenderer, int x, int y, DrawContext context) {
-        int columns = inventory.size();
-        for (int column = 0; column < columns; ++column) {
-            drawSlot(x + column * 18, y, column, context, textRenderer);
+        int slots = inventory.size();
+        for (int slot = 0; slot < slots; ++slot) {
+            drawSlot(x + (slot % MAX_COLUMNS) * 18, y + (slot / MAX_COLUMNS) * 18, slot, context, textRenderer);
         }
     }
 
