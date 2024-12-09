@@ -1,6 +1,7 @@
 package archives.tater.drinkingflask.item;
 
 import archives.tater.drinkingflask.DrinkingFlask;
+import archives.tater.drinkingflask.DrinkingFlaskRegistryImpl;
 import archives.tater.drinkingflask.client.FlaskTooltipData;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
@@ -64,10 +65,13 @@ public class DrinkingFlaskItem extends Item {
 
     // Only runs on server not client
     public static void applyEffect(ItemStack stack, World world, LivingEntity user) {
+        if (DrinkingFlaskRegistryImpl.runAction(stack, world, user)) return;
         stack.finishUsing(world, user);
     }
 
     public static ItemStack getLeftover(ItemStack stack) {
+        if (DrinkingFlaskRegistryImpl.hasRemainder(stack))
+            return DrinkingFlaskRegistryImpl.getRemainder(stack);
         if (stack.getItem().hasRecipeRemainder())
             return stack.getRecipeRemainder();
         if (stack.isIn(DrinkingFlask.BOTTLE_REMAINDER))
