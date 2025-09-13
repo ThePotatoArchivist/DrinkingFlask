@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "drinkingflask:drinking_flask"
-            ]
+            "items": "drinkingflask:drinking_flask"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_drinking_flask",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_drinking_flask"
     ]
   ],
   "rewards": {
     "recipes": [
       "drinkingflask:phantom_drinking_flask"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

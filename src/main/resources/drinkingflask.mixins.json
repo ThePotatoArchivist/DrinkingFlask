@@ -1,10 +1,11 @@
 {
-	"required": true,
-	"package": "archives.tater.drinkingflask.mixin",
-	"compatibilityLevel": "JAVA_17",
-	"mixins": [
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "archives.tater.drinkingflask.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "CuttingRecipeSerializerInvoker"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

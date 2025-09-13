@@ -1,0 +1,10 @@
+{
+  "type": "drinkingflask:remainder",
+  "ingredient": {
+    "tag": "drinkingflask:remainder/bowl"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:bowl"
+  }
+}

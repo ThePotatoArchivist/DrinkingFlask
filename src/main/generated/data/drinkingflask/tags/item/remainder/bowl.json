@@ -1,17 +1,9 @@
 {
-  "replace": false,
   "values": [
-    "minecraft:potion",
-    "minecraft:milk_bucket",
-    "minecraft:honey_bottle",
     "minecraft:mushroom_stew",
     "minecraft:rabbit_stew",
     "minecraft:beetroot_soup",
     "minecraft:suspicious_stew",
-    {
-      "id": "create:builders_tea",
-      "required": false
-    },
     {
       "id": "farmersdelight:tomato_sauce",
       "required": false
@@ -46,26 +38,6 @@
     },
     {
       "id": "farmersdelight:vegetable_soup",
-      "required": false
-    },
-    {
-      "id": "farmersdelight:apple_cider",
-      "required": false
-    },
-    {
-      "id": "farmersdelight:melon_juice",
-      "required": false
-    },
-    {
-      "id": "farmersdelight:hot_cocoa",
-      "required": false
-    },
-    {
-      "id": "farmersdelight:milk_bottle",
-      "required": false
-    },
-    {
-      "id": "farmersdelight:glow_berry_custard",
       "required": false
     }
   ]

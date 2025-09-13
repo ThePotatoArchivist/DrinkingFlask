@@ -3,6 +3,7 @@ package archives.tater.drinkingflask.datagen;
 import archives.tater.drinkingflask.DrinkingFlask;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
@@ -18,11 +19,15 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
     }
 
     private static List<Identifier> ids(String name, String... paths) {
-        return Stream.of(paths).map(path -> new Identifier(name, path)).toList();
+        return Stream.of(paths).map(path -> Identifier.of(name, path)).toList();
     }
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
+        getOrCreateTagBuilder(DrinkingFlask.FLASK_MATERIAL)
+                .forceAddTag(ConventionalItemTags.LEATHERS)
+                .add(Items.RABBIT_HIDE);
+
         var farmersDelightStews = ids("farmersdelight",
                 "tomato_sauce",
                 "bone_broth",
@@ -50,10 +55,10 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
                 Items.SUSPICIOUS_STEW
         };
 
-        Identifier buildersTea = new Identifier("create", "builders_tea");
+        Identifier buildersTea = Identifier.of("create", "builders_tea");
 
         var pourTag = getOrCreateTagBuilder(DrinkingFlask.CAN_POUR_INTO_FLASK)
-                .add(Items.POTION, Items.MILK_BUCKET, Items.HONEY_BOTTLE)
+                .add(Items.POTION, Items.MILK_BUCKET, Items.HONEY_BOTTLE, Items.OMINOUS_BOTTLE)
                 .add(vanillaStews)
                 .addOptional(buildersTea);
         farmersDelightStews.forEach(pourTag::addOptional);
@@ -62,6 +67,7 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
         var bottleTag = getOrCreateTagBuilder(DrinkingFlask.BOTTLE_REMAINDER)
                 .add(Items.POTION)
                 .addOptional(buildersTea);
+                // Honey has a recipe remainder
         farmersDelightDrinks.forEach(bottleTag::addOptional);
 
         var bowlTag = getOrCreateTagBuilder(DrinkingFlask.BOWL_REMAINDER)
@@ -70,9 +76,9 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
 
         getOrCreateTagBuilder(DrinkingFlask.BUCKET_REMAINDER);
 
-        var doubleTag = getOrCreateTagBuilder(DrinkingFlask.DOUBLE_SIZE)
+        getOrCreateTagBuilder(DrinkingFlask.DOUBLE_SIZE)
                 .add(Items.POTION, Items.MILK_BUCKET)
                 .addOptional(buildersTea)
-                .addOptional(new Identifier("farmersdelight", "apple_cider")); // regen
+                .addOptional(Identifier.of("farmersdelight", "apple_cider")); // regen
     }
 }

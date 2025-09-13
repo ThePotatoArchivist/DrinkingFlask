@@ -9,7 +9,7 @@
       "item": "minecraft:honeycomb"
     },
     "%": {
-      "item": "minecraft:iron_ingot"
+      "tag": "c:ingots/iron"
     }
   },
   "pattern": [
@@ -18,7 +18,7 @@
     " # "
   ],
   "result": {
-    "item": "drinkingflask:phantom_drinking_flask"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "drinkingflask:phantom_drinking_flask"
+  }
 }

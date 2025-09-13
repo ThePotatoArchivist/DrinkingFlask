@@ -1,11 +1,23 @@
 package archives.tater.drinkingflask;
 
 import archives.tater.drinkingflask.item.DrinkingFlaskItem;
+import archives.tater.drinkingflask.item.FlaskContentsComponent;
+import archives.tater.drinkingflask.item.PhantomDrinkingFlaskItem;
+import archives.tater.drinkingflask.mixin.CuttingRecipeSerializerInvoker;
+import archives.tater.drinkingflask.recipe.FlaskRemainderRecipe;
+import com.mojang.serialization.Codec;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.component.ComponentType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
@@ -16,24 +28,55 @@ import org.slf4j.LoggerFactory;
 
 public class DrinkingFlask implements ModInitializer {
 	public static final String MOD_ID = "drinkingflask";
+
+    public static Identifier id(String path) {
+        return Identifier.of(MOD_ID, path);
+    }
+
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-	public static final TagKey<Item> CAN_POUR_INTO_FLASK = TagKey.of(RegistryKeys.ITEM, new Identifier(MOD_ID, "can_pour_into_flask"));
-	public static final TagKey<Item> BOTTLE_REMAINDER = TagKey.of(RegistryKeys.ITEM, new Identifier(MOD_ID, "remainder/glass_bottle"));
-	public static final TagKey<Item> BOWL_REMAINDER = TagKey.of(RegistryKeys.ITEM, new Identifier(MOD_ID, "remainder/bowl"));
-	public static final TagKey<Item> BUCKET_REMAINDER = TagKey.of(RegistryKeys.ITEM, new Identifier(MOD_ID, "remainder/bucket"));
-	public static final TagKey<Item> DOUBLE_SIZE = TagKey.of(RegistryKeys.ITEM, new Identifier(MOD_ID, "double_size"));
+    private static <T extends Recipe<?>> RecipeType<T> registerRecipeType(Identifier id) {
+        return Registry.register(Registries.RECIPE_TYPE, id, new RecipeType<T>() {
+            @Override
+            public String toString() {
+                return id.toString();
+            }
+        });
+    }
 
-	public static final Item DRINKING_FLASK = Registry.register(Registries.ITEM, new Identifier(MOD_ID, "drinking_flask"), new DrinkingFlaskItem(16, false, new FabricItemSettings()
+    private static <T> ComponentType<T> register(Identifier id, Codec<T> codec, PacketCodec<? super RegistryByteBuf, T> packetCodec) {
+        return Registry.register(Registries.DATA_COMPONENT_TYPE, id, ComponentType.<T>builder().codec(codec).packetCodec(packetCodec).build());
+    }
+
+    public static final TagKey<Item> FLASK_MATERIAL = TagKey.of(RegistryKeys.ITEM, id("flask_material"));
+	public static final TagKey<Item> CAN_POUR_INTO_FLASK = TagKey.of(RegistryKeys.ITEM, id("can_pour_into_flask"));
+	public static final TagKey<Item> BOTTLE_REMAINDER = TagKey.of(RegistryKeys.ITEM, id("remainder/glass_bottle"));
+	public static final TagKey<Item> BOWL_REMAINDER = TagKey.of(RegistryKeys.ITEM, id("remainder/bowl"));
+	public static final TagKey<Item> BUCKET_REMAINDER = TagKey.of(RegistryKeys.ITEM, id("remainder/bucket"));
+	public static final TagKey<Item> DOUBLE_SIZE = TagKey.of(RegistryKeys.ITEM, id("double_size"));
+
+    public static final RecipeType<FlaskRemainderRecipe> REMAINDER_RECIPE_TYPE = registerRecipeType(id("remainder"));
+    public static final RecipeSerializer<FlaskRemainderRecipe> REMAINDER_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, id("remainder"), CuttingRecipeSerializerInvoker.newSerializer(FlaskRemainderRecipe::new));
+
+    public static final ComponentType<Integer> FLASK_CAPACITY = register(id("flask_capacity"), Codec.intRange(1, 99), PacketCodecs.INTEGER);
+    public static final ComponentType<FlaskContentsComponent> FLASK_CONTENTS = register(id("flask_contents"), FlaskContentsComponent.CODEC, FlaskContentsComponent.PACKET_CODEC);
+
+	public static final Item DRINKING_FLASK = Registry.register(Registries.ITEM, id("drinking_flask"), new DrinkingFlaskItem(new Item.Settings()
 			.maxCount(1)
+            .component(FLASK_CAPACITY, 16)
 	));
 
-	public static final Item PHANTOM_DRINKING_FLASK = Registry.register(Registries.ITEM, new Identifier(MOD_ID, "phantom_drinking_flask"), new DrinkingFlaskItem(16, true, new FabricItemSettings()
+	public static final Item PHANTOM_DRINKING_FLASK = Registry.register(Registries.ITEM, id("phantom_drinking_flask"), new PhantomDrinkingFlaskItem(new Item.Settings()
 			.maxCount(1)
+            .component(FLASK_CAPACITY, 16)
 	));
+
+    public static int getSize(ItemStack stack) {
+        return stack.isIn(DOUBLE_SIZE) ? 2 : 1;
+    }
 
 	@Override
 	public void onInitialize() {

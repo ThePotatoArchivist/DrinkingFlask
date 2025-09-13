@@ -1,13 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_potion": {
+    "has_material": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:potion"
-            ]
+            "items": "#drinkingflask:flask_material"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_potion",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_material"
     ]
   ],
   "rewards": {
     "recipes": [
       "drinkingflask:drinking_flask"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }
