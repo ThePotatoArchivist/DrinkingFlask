@@ -57,24 +57,23 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
 
         Identifier buildersTea = Identifier.of("create", "builders_tea");
 
-        var pourTag = getOrCreateTagBuilder(DrinkingFlask.CAN_POUR_INTO_FLASK)
-                .add(Items.POTION, Items.MILK_BUCKET, Items.HONEY_BOTTLE, Items.OMINOUS_BOTTLE)
-                .add(vanillaStews)
-                .addOptional(buildersTea);
-        farmersDelightStews.forEach(pourTag::addOptional);
-        farmersDelightDrinks.forEach(pourTag::addOptional);
+        getOrCreateTagBuilder(DrinkingFlask.CAN_POUR_INTO_FLASK)
+                .forceAddTag(DrinkingFlask.BOTTLE_REMAINDER)
+                .forceAddTag(DrinkingFlask.BOWL_REMAINDER)
+                .forceAddTag(DrinkingFlask.BUCKET_REMAINDER)
+                .add(Items.OMINOUS_BOTTLE);
 
         var bottleTag = getOrCreateTagBuilder(DrinkingFlask.BOTTLE_REMAINDER)
-                .add(Items.POTION)
+                .add(Items.POTION, Items.HONEY_BOTTLE)
                 .addOptional(buildersTea);
-                // Honey has a recipe remainder
         farmersDelightDrinks.forEach(bottleTag::addOptional);
 
         var bowlTag = getOrCreateTagBuilder(DrinkingFlask.BOWL_REMAINDER)
                 .add(vanillaStews);
         farmersDelightStews.forEach(bowlTag::addOptional);
 
-        getOrCreateTagBuilder(DrinkingFlask.BUCKET_REMAINDER);
+        getOrCreateTagBuilder(DrinkingFlask.BUCKET_REMAINDER)
+                .add(Items.MILK_BUCKET);
 
         getOrCreateTagBuilder(DrinkingFlask.DOUBLE_SIZE)
                 .add(Items.POTION, Items.MILK_BUCKET)

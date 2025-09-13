@@ -26,6 +26,7 @@ import static java.lang.Math.min;
 public class DrinkingFlaskItem extends Item {
 
     private static final int ITEM_BAR_COLOR = MathHelper.packRgb(0.4f, 0.4f, 1.0f);
+    public static final String FULLNESS_TRANSLATION = "item.drinkingflask.drinking_flask.fullness";
 
     public DrinkingFlaskItem(Settings settings) {
         super(settings);
@@ -122,7 +123,7 @@ public class DrinkingFlaskItem extends Item {
 
     @Override
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
-        if (clickType != ClickType.RIGHT || !slot.canTakePartial(player)) return false;
+        if (clickType != ClickType.LEFT || !slot.canTakePartial(player)) return false;
 
         if (!canInsert(otherStack)) return false;
         if (!itemFits(stack, otherStack)) return false;
@@ -134,7 +135,7 @@ public class DrinkingFlaskItem extends Item {
 
     @Override
     public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
-        if (clickType != ClickType.RIGHT) return false;
+        if (clickType != ClickType.LEFT) return false;
 
         ItemStack otherStack = slot.getStack();
 
@@ -154,7 +155,10 @@ public class DrinkingFlaskItem extends Item {
     public int getItemBarStep(ItemStack stack) {
         int maxSize = getCapacity(stack);
         if (maxSize <= 0) return 0;
-        return min(13 * getSize(stack) / maxSize, 13);
+        int size = getSize(stack);
+        if (size == 0) return 0;
+        if (size == maxSize) return 13;
+        return min(11 * (size - 1) / (maxSize - 2), 11) + 1;
     }
 
     @Override
@@ -165,6 +169,6 @@ public class DrinkingFlaskItem extends Item {
     public static void appendTooltip(ItemStack stack, TooltipContext context, TooltipType type, List<Text> tooltip) {
         int maxSize = getCapacity(stack);
         if (maxSize <= 0) return;
-        tooltip.add(Text.translatable("item.drinkingflask.drinking_flask.fullness", getSize(stack), maxSize).formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable(FULLNESS_TRANSLATION, getSize(stack), maxSize).formatted(Formatting.GRAY));
     }
 }
