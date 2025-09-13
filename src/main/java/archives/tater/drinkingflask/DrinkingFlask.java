@@ -26,6 +26,8 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.function.Function;
+
 public class DrinkingFlask implements ModInitializer {
 	public static final String MOD_ID = "drinkingflask";
 
@@ -51,28 +53,48 @@ public class DrinkingFlask implements ModInitializer {
         return Registry.register(Registries.DATA_COMPONENT_TYPE, id, ComponentType.<T>builder().codec(codec).packetCodec(packetCodec).build());
     }
 
-    public static final TagKey<Item> FLASK_MATERIAL = TagKey.of(RegistryKeys.ITEM, id("flask_material"));
-	public static final TagKey<Item> CAN_POUR_INTO_FLASK = TagKey.of(RegistryKeys.ITEM, id("can_pour_into_flask"));
-	public static final TagKey<Item> BOTTLE_REMAINDER = TagKey.of(RegistryKeys.ITEM, id("remainder/glass_bottle"));
-	public static final TagKey<Item> BOWL_REMAINDER = TagKey.of(RegistryKeys.ITEM, id("remainder/bowl"));
-	public static final TagKey<Item> BUCKET_REMAINDER = TagKey.of(RegistryKeys.ITEM, id("remainder/bucket"));
-	public static final TagKey<Item> DOUBLE_SIZE = TagKey.of(RegistryKeys.ITEM, id("double_size"));
+    private static <T> ComponentType<T> register(String path, Codec<T> codec, PacketCodec<? super RegistryByteBuf, T> packetCodec) {
+        return register(id(path), codec, packetCodec);
+    }
+
+    private static Item register(Identifier id, Function<Item.Settings, Item> item, Item.Settings settings) {
+        return Registry.register(Registries.ITEM, id, item.apply(settings));
+    }
+
+    private static Item register(String path, Function<Item.Settings, Item> item, Item.Settings settings) {
+        return register(id(path), item, settings);
+    }
+
+    private static TagKey<Item> tagOf(Identifier id) {
+        return TagKey.of(RegistryKeys.ITEM, id);
+    }
+
+    private static TagKey<Item> tagOf(String path) {
+        return tagOf(id(path));
+    }
+
+    public static final TagKey<Item> FLASK_MATERIAL = tagOf("flask_material");
+	public static final TagKey<Item> CAN_POUR_INTO_FLASK = tagOf("can_pour_into_flask");
+	public static final TagKey<Item> BOTTLE_REMAINDER = tagOf("remainder/glass_bottle");
+	public static final TagKey<Item> BOWL_REMAINDER = tagOf("remainder/bowl");
+	public static final TagKey<Item> BUCKET_REMAINDER = tagOf("remainder/bucket");
+	public static final TagKey<Item> DOUBLE_SIZE = tagOf("double_size");
 
     public static final RecipeType<FlaskRemainderRecipe> REMAINDER_RECIPE_TYPE = registerRecipeType(id("remainder"));
     public static final RecipeSerializer<FlaskRemainderRecipe> REMAINDER_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, id("remainder"), CuttingRecipeSerializerInvoker.newSerializer(FlaskRemainderRecipe::new));
 
-    public static final ComponentType<Integer> FLASK_CAPACITY = register(id("flask_capacity"), Codec.intRange(1, 99), PacketCodecs.INTEGER);
-    public static final ComponentType<FlaskContentsComponent> FLASK_CONTENTS = register(id("flask_contents"), FlaskContentsComponent.CODEC, FlaskContentsComponent.PACKET_CODEC);
+    public static final ComponentType<Integer> FLASK_CAPACITY = register("flask_capacity", Codec.intRange(1, 99), PacketCodecs.INTEGER);
+    public static final ComponentType<FlaskContentsComponent> FLASK_CONTENTS = register("flask_contents", FlaskContentsComponent.CODEC, FlaskContentsComponent.PACKET_CODEC);
 
-	public static final Item DRINKING_FLASK = Registry.register(Registries.ITEM, id("drinking_flask"), new DrinkingFlaskItem(new Item.Settings()
+	public static final Item DRINKING_FLASK = register("drinking_flask", DrinkingFlaskItem::new, new Item.Settings()
 			.maxCount(1)
             .component(FLASK_CAPACITY, 16)
-	));
+	);
 
-	public static final Item PHANTOM_DRINKING_FLASK = Registry.register(Registries.ITEM, id("phantom_drinking_flask"), new PhantomDrinkingFlaskItem(new Item.Settings()
+	public static final Item PHANTOM_DRINKING_FLASK = register("phantom_drinking_flask", PhantomDrinkingFlaskItem::new, new Item.Settings()
 			.maxCount(1)
             .component(FLASK_CAPACITY, 16)
-	));
+	);
 
     public static int getSize(ItemStack stack) {
         return stack.isIn(DOUBLE_SIZE) ? 2 : 1;
