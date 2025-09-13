@@ -1,7 +1,7 @@
 package archives.tater.drinkingflask.client.gui;
 
 import archives.tater.drinkingflask.DrinkingFlask;
-import archives.tater.drinkingflask.item.FlaskContentsComponent;
+import archives.tater.drinkingflask.component.FlaskContentsComponent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;

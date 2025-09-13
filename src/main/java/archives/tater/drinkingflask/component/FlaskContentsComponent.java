@@ -1,5 +1,6 @@
-package archives.tater.drinkingflask.item;
+package archives.tater.drinkingflask.component;
 
+import archives.tater.drinkingflask.item.DrinkingFlaskItem;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentType;
 import net.minecraft.item.ItemStack;

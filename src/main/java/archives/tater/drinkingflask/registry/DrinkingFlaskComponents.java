@@ -1,7 +1,7 @@
 package archives.tater.drinkingflask.registry;
 
 import archives.tater.drinkingflask.DrinkingFlask;
-import archives.tater.drinkingflask.item.FlaskContentsComponent;
+import archives.tater.drinkingflask.component.FlaskContentsComponent;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentType;
 import net.minecraft.network.RegistryByteBuf;

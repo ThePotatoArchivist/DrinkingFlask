@@ -1,5 +1,6 @@
 package archives.tater.drinkingflask.item;
 
+import archives.tater.drinkingflask.component.FlaskContentsComponent;
 import archives.tater.drinkingflask.registry.DrinkingFlaskComponents;
 import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
 import archives.tater.drinkingflask.registry.DrinkingFlaskRecipes;
@@ -10,25 +11,20 @@ import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 import static java.lang.Math.min;
 
 public class DrinkingFlaskItem extends Item {
 
     private static final int ITEM_BAR_COLOR = MathHelper.packRgb(0.4f, 0.4f, 1.0f);
-    public static final String FULLNESS_TRANSLATION = "item.drinkingflask.drinking_flask.fullness";
 
     public DrinkingFlaskItem(Settings settings) {
         super(settings);
@@ -46,7 +42,7 @@ public class DrinkingFlaskItem extends Item {
         return stack.isIn(DrinkingFlaskItemTags.DOUBLE_SIZE) ? 2 : 1;
     }
 
-    private static Integer getCapacity(ItemStack flaskStack) {
+    public static Integer getCapacity(ItemStack flaskStack) {
         return flaskStack.getOrDefault(DrinkingFlaskComponents.FLASK_CAPACITY, 0);
     }
 
@@ -170,11 +166,5 @@ public class DrinkingFlaskItem extends Item {
     @Override
     public int getItemBarColor(ItemStack stack) {
         return ITEM_BAR_COLOR;
-    }
-
-    public static void appendTooltip(ItemStack stack, TooltipContext context, TooltipType type, List<Text> tooltip) {
-        int maxSize = getCapacity(stack);
-        if (maxSize <= 0) return;
-        tooltip.add(Text.translatable(FULLNESS_TRANSLATION, getFlaskSize(stack), maxSize).formatted(Formatting.GRAY));
     }
 }
