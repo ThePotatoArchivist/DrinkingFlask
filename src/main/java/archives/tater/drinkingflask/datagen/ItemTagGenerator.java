@@ -77,7 +77,6 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
 
         getOrCreateTagBuilder(DrinkingFlask.DOUBLE_SIZE)
                 .add(Items.POTION, Items.MILK_BUCKET)
-                .addOptional(buildersTea)
-                .addOptional(Identifier.of("farmersdelight", "apple_cider")); // regen
+                .addOptional(buildersTea);
     }
 }
