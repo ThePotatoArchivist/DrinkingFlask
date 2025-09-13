@@ -1,6 +1,5 @@
 package archives.tater.drinkingflask.item;
 
-import archives.tater.drinkingflask.DrinkingFlask;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentType;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,7 @@ import java.util.List;
 public record FlaskContentsComponent(List<ItemStack> contents) implements TooltipData {
 
     public int getSize() {
-        return contents.stream().mapToInt(DrinkingFlask::getSize).sum();
+        return contents.stream().mapToInt(DrinkingFlaskItem::getDrinkSize).sum();
     }
 
     public boolean isEmpty() {

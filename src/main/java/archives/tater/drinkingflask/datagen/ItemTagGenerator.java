@@ -1,6 +1,6 @@
 package archives.tater.drinkingflask.datagen;
 
-import archives.tater.drinkingflask.DrinkingFlask;
+import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
@@ -24,7 +24,7 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
-        getOrCreateTagBuilder(DrinkingFlask.FLASK_MATERIAL)
+        getOrCreateTagBuilder(DrinkingFlaskItemTags.FLASK_MATERIAL)
                 .forceAddTag(ConventionalItemTags.LEATHERS)
                 .add(Items.RABBIT_HIDE);
 
@@ -57,25 +57,25 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
 
         Identifier buildersTea = Identifier.of("create", "builders_tea");
 
-        getOrCreateTagBuilder(DrinkingFlask.CAN_POUR_INTO_FLASK)
-                .forceAddTag(DrinkingFlask.BOTTLE_REMAINDER)
-                .forceAddTag(DrinkingFlask.BOWL_REMAINDER)
-                .forceAddTag(DrinkingFlask.BUCKET_REMAINDER)
+        getOrCreateTagBuilder(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK)
+                .forceAddTag(DrinkingFlaskItemTags.BOTTLE_REMAINDER)
+                .forceAddTag(DrinkingFlaskItemTags.BOWL_REMAINDER)
+                .forceAddTag(DrinkingFlaskItemTags.BUCKET_REMAINDER)
                 .add(Items.OMINOUS_BOTTLE);
 
-        var bottleTag = getOrCreateTagBuilder(DrinkingFlask.BOTTLE_REMAINDER)
+        var bottleTag = getOrCreateTagBuilder(DrinkingFlaskItemTags.BOTTLE_REMAINDER)
                 .add(Items.POTION, Items.HONEY_BOTTLE)
                 .addOptional(buildersTea);
         farmersDelightDrinks.forEach(bottleTag::addOptional);
 
-        var bowlTag = getOrCreateTagBuilder(DrinkingFlask.BOWL_REMAINDER)
+        var bowlTag = getOrCreateTagBuilder(DrinkingFlaskItemTags.BOWL_REMAINDER)
                 .add(vanillaStews);
         farmersDelightStews.forEach(bowlTag::addOptional);
 
-        getOrCreateTagBuilder(DrinkingFlask.BUCKET_REMAINDER)
+        getOrCreateTagBuilder(DrinkingFlaskItemTags.BUCKET_REMAINDER)
                 .add(Items.MILK_BUCKET);
 
-        getOrCreateTagBuilder(DrinkingFlask.DOUBLE_SIZE)
+        getOrCreateTagBuilder(DrinkingFlaskItemTags.DOUBLE_SIZE)
                 .add(Items.POTION, Items.MILK_BUCKET)
                 .addOptional(buildersTea);
     }

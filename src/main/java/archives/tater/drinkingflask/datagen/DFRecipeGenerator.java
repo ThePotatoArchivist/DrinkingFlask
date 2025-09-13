@@ -2,6 +2,8 @@ package archives.tater.drinkingflask.datagen;
 
 import archives.tater.drinkingflask.DrinkingFlask;
 import archives.tater.drinkingflask.recipe.FlaskRemainderRecipe;
+import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
+import archives.tater.drinkingflask.registry.DrinkingFlaskItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
@@ -31,28 +33,28 @@ public class DFRecipeGenerator extends FabricRecipeProvider {
 
     @Override
     public void generate(RecipeExporter exporter) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, DrinkingFlask.DRINKING_FLASK)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, DrinkingFlaskItems.DRINKING_FLASK)
                 .pattern(" % ")
                 .pattern("#$#")
                 .pattern(" # ")
                 .input('%', ConventionalItemTags.IRON_INGOTS)
                 .input('$', Items.HONEYCOMB)
-                .input('#', Ingredient.fromTag(DrinkingFlask.FLASK_MATERIAL))
-                .criterion("has_material", conditionsFromTag(DrinkingFlask.FLASK_MATERIAL))
+                .input('#', Ingredient.fromTag(DrinkingFlaskItemTags.FLASK_MATERIAL))
+                .criterion("has_material", conditionsFromTag(DrinkingFlaskItemTags.FLASK_MATERIAL))
                 .offerTo(exporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, DrinkingFlask.PHANTOM_DRINKING_FLASK)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, DrinkingFlaskItems.PHANTOM_DRINKING_FLASK)
                 .pattern(" % ")
                 .pattern("#$#")
                 .pattern(" # ")
                 .input('%', ConventionalItemTags.IRON_INGOTS)
                 .input('$', Items.HONEYCOMB)
                 .input('#', Items.PHANTOM_MEMBRANE)
-                .criterion(hasItem(DrinkingFlask.DRINKING_FLASK), conditionsFromItem(DrinkingFlask.DRINKING_FLASK))
+                .criterion(hasItem(DrinkingFlaskItems.DRINKING_FLASK), conditionsFromItem(DrinkingFlaskItems.DRINKING_FLASK))
                 .offerTo(exporter);
 
-        offerRemainderRecipe(exporter, Ingredient.fromTag(DrinkingFlask.BOTTLE_REMAINDER), Items.GLASS_BOTTLE);
-        offerRemainderRecipe(exporter, Ingredient.fromTag(DrinkingFlask.BOWL_REMAINDER), Items.BOWL);
-        offerRemainderRecipe(exporter, Ingredient.fromTag(DrinkingFlask.BUCKET_REMAINDER), Items.BUCKET);
+        offerRemainderRecipe(exporter, Ingredient.fromTag(DrinkingFlaskItemTags.BOTTLE_REMAINDER), Items.GLASS_BOTTLE);
+        offerRemainderRecipe(exporter, Ingredient.fromTag(DrinkingFlaskItemTags.BOWL_REMAINDER), Items.BOWL);
+        offerRemainderRecipe(exporter, Ingredient.fromTag(DrinkingFlaskItemTags.BUCKET_REMAINDER), Items.BUCKET);
     }
 }

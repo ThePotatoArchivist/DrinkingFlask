@@ -1,6 +1,8 @@
 package archives.tater.drinkingflask.item;
 
-import archives.tater.drinkingflask.DrinkingFlask;
+import archives.tater.drinkingflask.registry.DrinkingFlaskComponents;
+import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
+import archives.tater.drinkingflask.registry.DrinkingFlaskRecipes;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,38 +35,42 @@ public class DrinkingFlaskItem extends Item {
     }
 
     public static FlaskContentsComponent getContents(ItemStack stack) {
-        return stack.getOrDefault(DrinkingFlask.FLASK_CONTENTS, FlaskContentsComponent.DEFAULT);
+        return stack.getOrDefault(DrinkingFlaskComponents.FLASK_CONTENTS, FlaskContentsComponent.DEFAULT);
     }
 
-    public static int getSize(ItemStack stack) {
+    public static int getFlaskSize(ItemStack stack) {
         return getContents(stack).getSize();
     }
 
+    public static int getDrinkSize(ItemStack stack) {
+        return stack.isIn(DrinkingFlaskItemTags.DOUBLE_SIZE) ? 2 : 1;
+    }
+
     private static Integer getCapacity(ItemStack flaskStack) {
-        return flaskStack.getOrDefault(DrinkingFlask.FLASK_CAPACITY, 0);
+        return flaskStack.getOrDefault(DrinkingFlaskComponents.FLASK_CAPACITY, 0);
     }
 
     public static boolean canInsert(ItemStack itemStack) {
-        return !(itemStack.getItem() instanceof DrinkingFlaskItem) && itemStack.isIn(DrinkingFlask.CAN_POUR_INTO_FLASK);
+        return !(itemStack.getItem() instanceof DrinkingFlaskItem) && itemStack.isIn(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK);
     }
 
     public static boolean itemFits(ItemStack flaskStack, ItemStack drinkStack) {
         int maxSize = getCapacity(flaskStack);
         var contents = getContents(flaskStack);
-        return contents.getSize() + DrinkingFlask.getSize(drinkStack) <= maxSize;
+        return contents.getSize() + getDrinkSize(drinkStack) <= maxSize;
     }
 
     public static ItemStack getRemainder(World world, ItemStack stack) {
         var input = new SingleStackRecipeInput(stack);
         return world.getRecipeManager()
-                .getFirstMatch(DrinkingFlask.REMAINDER_RECIPE_TYPE, input, world)
+                .getFirstMatch(DrinkingFlaskRecipes.REMAINDER_RECIPE_TYPE, input, world)
                 .map(entry -> entry.value().craft(input, world.getRegistryManager()))
                 .orElseGet(stack::getRecipeRemainder); // returns EMPTY if none exists
     }
 
     public static ItemStack insertStack(ItemStack flaskStack, ItemStack drinkStack, World world, PlayerEntity user) {
         var remainder = getRemainder(world, drinkStack);
-        FlaskContentsComponent.add(flaskStack, DrinkingFlask.FLASK_CONTENTS, drinkStack.splitUnlessCreative(1, user));
+        FlaskContentsComponent.add(flaskStack, DrinkingFlaskComponents.FLASK_CONTENTS, drinkStack.splitUnlessCreative(1, user));
 
         // TODO add custom sound effect
         user.playSound(SoundEvents.ITEM_BOTTLE_FILL, 1f, 0.2f * world.random.nextFloat() + 0.6f);
@@ -105,7 +111,7 @@ public class DrinkingFlaskItem extends Item {
             serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
         }
         if (!world.isClient) {
-            var chosen = FlaskContentsComponent.popRandom(stack, DrinkingFlask.FLASK_CONTENTS, user.getRandom());
+            var chosen = FlaskContentsComponent.popRandom(stack, DrinkingFlaskComponents.FLASK_CONTENTS, user.getRandom());
             chosen.finishUsing(world, user);
         }
         return stack;
@@ -155,7 +161,7 @@ public class DrinkingFlaskItem extends Item {
     public int getItemBarStep(ItemStack stack) {
         int maxSize = getCapacity(stack);
         if (maxSize <= 0) return 0;
-        int size = getSize(stack);
+        int size = getFlaskSize(stack);
         if (size == 0) return 0;
         if (size == maxSize) return 13;
         return min(11 * (size - 1) / (maxSize - 2), 11) + 1;
@@ -169,6 +175,6 @@ public class DrinkingFlaskItem extends Item {
     public static void appendTooltip(ItemStack stack, TooltipContext context, TooltipType type, List<Text> tooltip) {
         int maxSize = getCapacity(stack);
         if (maxSize <= 0) return;
-        tooltip.add(Text.translatable(FULLNESS_TRANSLATION, getSize(stack), maxSize).formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable(FULLNESS_TRANSLATION, getFlaskSize(stack), maxSize).formatted(Formatting.GRAY));
     }
 }

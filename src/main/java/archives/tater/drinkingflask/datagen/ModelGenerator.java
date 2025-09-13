@@ -1,6 +1,6 @@
 package archives.tater.drinkingflask.datagen;
 
-import archives.tater.drinkingflask.DrinkingFlask;
+import archives.tater.drinkingflask.registry.DrinkingFlaskItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
@@ -20,7 +20,7 @@ public class ModelGenerator extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(DrinkingFlask.DRINKING_FLASK, Models.GENERATED);
-        itemModelGenerator.register(DrinkingFlask.PHANTOM_DRINKING_FLASK, Models.GENERATED);
+        itemModelGenerator.register(DrinkingFlaskItems.DRINKING_FLASK, Models.GENERATED);
+        itemModelGenerator.register(DrinkingFlaskItems.PHANTOM_DRINKING_FLASK, Models.GENERATED);
     }
 }
