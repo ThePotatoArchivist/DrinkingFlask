@@ -14,6 +14,6 @@ public class DrinkingFlaskDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ItemTagGenerator::new);
 		pack.addProvider(ModelGenerator::new);
 		pack.addProvider(LangGenerator::new);
-		pack.addProvider(DFRecipeGenerator::new);
+		pack.addProvider(DFRecipeGenerator.Provider::new);
 	}
 }

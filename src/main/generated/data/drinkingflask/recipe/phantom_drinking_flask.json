@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "#": {
-      "item": "minecraft:phantom_membrane"
-    },
-    "$": {
-      "item": "minecraft:honeycomb"
-    },
-    "%": {
-      "tag": "c:ingots/iron"
-    }
+    "#": "minecraft:phantom_membrane",
+    "$": "minecraft:honeycomb",
+    "%": "#c:ingots/iron"
   },
   "pattern": [
     " % ",

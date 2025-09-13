@@ -1,8 +1,68 @@
 {
   "values": [
-    "#drinkingflask:remainder/glass_bottle",
-    "#drinkingflask:remainder/bowl",
-    "#drinkingflask:remainder/bucket",
-    "minecraft:ominous_bottle"
+    "minecraft:ominous_bottle",
+    "minecraft:milk_bucket",
+    "minecraft:potion",
+    "minecraft:honey_bottle",
+    "minecraft:mushroom_stew",
+    "minecraft:rabbit_stew",
+    "minecraft:beetroot_soup",
+    "minecraft:suspicious_stew",
+    {
+      "id": "farmersdelight:tomato_sauce",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:bone_broth",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:baked_cod_stew",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:beef_stew",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:fish_stew",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:chicken_soup",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:noodle_soup",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:pumpkin_soup",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:vegetable_soup",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:apple_cider",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:melon_juice",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:hot_cocoa",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:milk_bottle",
+      "required": false
+    },
+    {
+      "id": "farmersdelight:glow_berry_custard",
+      "required": false
+    }
   ]
 }

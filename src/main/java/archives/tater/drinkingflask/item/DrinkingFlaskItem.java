@@ -3,28 +3,34 @@ package archives.tater.drinkingflask.item;
 import archives.tater.drinkingflask.component.FlaskContentsComponent;
 import archives.tater.drinkingflask.registry.DrinkingFlaskComponents;
 import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
-import archives.tater.drinkingflask.registry.DrinkingFlaskRecipes;
 import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ConsumableComponent;
+import net.minecraft.component.type.ConsumableComponents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
+import net.minecraft.item.consume.UseAction;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.util.*;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.ClickType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.world.World;
 
 import static java.lang.Math.min;
+import static java.util.Objects.requireNonNullElse;
 
 public class DrinkingFlaskItem extends Item {
 
-    private static final int ITEM_BAR_COLOR = MathHelper.packRgb(0.4f, 0.4f, 1.0f);
+    private static final int ITEM_BAR_COLOR = ColorHelper.fromFloats(1f, 0.4f, 0.4f, 1.0f);
+    private static final ConsumableComponent FAKE_CONSUMABLE = ConsumableComponents.drink().consumeSeconds(2f).build();
 
     public DrinkingFlaskItem(Settings settings) {
         super(settings);
@@ -47,7 +53,11 @@ public class DrinkingFlaskItem extends Item {
     }
 
     public static boolean canInsert(ItemStack itemStack) {
-        return !(itemStack.getItem() instanceof DrinkingFlaskItem) && itemStack.isIn(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK);
+        if (itemStack.getItem() instanceof DrinkingFlaskItem) return false;
+        if (itemStack.isIn(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK)) return true;
+        var consumable = itemStack.get(DataComponentTypes.CONSUMABLE);
+        if (consumable == null) return false;
+        return consumable.useAction() == UseAction.DRINK;
     }
 
     public static boolean itemFits(ItemStack flaskStack, ItemStack drinkStack) {
@@ -56,16 +66,15 @@ public class DrinkingFlaskItem extends Item {
         return contents.getSize() + getDrinkSize(drinkStack) <= maxSize;
     }
 
-    public static ItemStack getRemainder(World world, ItemStack stack) {
-        var input = new SingleStackRecipeInput(stack);
-        return world.getRecipeManager()
-                .getFirstMatch(DrinkingFlaskRecipes.REMAINDER_RECIPE_TYPE, input, world)
-                .map(entry -> entry.value().craft(input, world.getRegistryManager()))
-                .orElseGet(stack::getRecipeRemainder); // returns EMPTY if none exists
+    public static ItemStack getRemainder(ItemStack stack) {
+        var useRemainder = stack.get(DataComponentTypes.USE_REMAINDER);
+        if (useRemainder != null) return useRemainder.convertInto();
+        var recipeRemainder = stack.getRecipeRemainder();
+        return requireNonNullElse(recipeRemainder, ItemStack.EMPTY);
     }
 
     public static ItemStack insertStack(ItemStack flaskStack, ItemStack drinkStack, World world, PlayerEntity user) {
-        var remainder = getRemainder(world, drinkStack);
+        var remainder = getRemainder(drinkStack);
         FlaskContentsComponent.add(flaskStack, DrinkingFlaskComponents.FLASK_CONTENTS, drinkStack.splitUnlessCreative(1, user));
 
         // TODO add custom sound effect
@@ -82,21 +91,21 @@ public class DrinkingFlaskItem extends Item {
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    public ActionResult use(World world, PlayerEntity user, Hand hand) {
         var flaskStack = user.getStackInHand(hand);
         var otherHand = hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND;
         var drinkStack = user.getStackInHand(otherHand);
 
         if (!canInsert(drinkStack) || !itemFits(flaskStack, drinkStack)) {
             if (getContents(flaskStack).isEmpty())
-                return TypedActionResult.fail(flaskStack);
+                return ActionResult.FAIL;
 
             return ItemUsage.consumeHeldItem(world, user, hand);
         }
 
         user.setStackInHand(otherHand, insertStack(flaskStack, drinkStack, world, user));
 
-        return TypedActionResult.success(flaskStack);
+        return ActionResult.SUCCESS.withNewHandStack(flaskStack);
     }
 
     @Override
@@ -121,6 +130,15 @@ public class DrinkingFlaskItem extends Item {
     @Override
     public int getMaxUseTime(ItemStack stack, LivingEntity user) {
         return 40;
+    }
+
+    @Override
+    public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
+        super.usageTick(world, user, stack, remainingUseTicks);
+
+        if (FAKE_CONSUMABLE.shouldSpawnParticlesAndPlaySounds(remainingUseTicks)) {
+            FAKE_CONSUMABLE.spawnParticlesAndPlaySound(user.getRandom(), user, stack, 0);
+        }
     }
 
     @Override

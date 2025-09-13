@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "#": {
-      "tag": "drinkingflask:flask_material"
-    },
-    "$": {
-      "item": "minecraft:honeycomb"
-    },
-    "%": {
-      "tag": "c:ingots/iron"
-    }
+    "#": "#drinkingflask:flask_material",
+    "$": "minecraft:honeycomb",
+    "%": "#c:ingots/iron"
   },
   "pattern": [
     " % ",

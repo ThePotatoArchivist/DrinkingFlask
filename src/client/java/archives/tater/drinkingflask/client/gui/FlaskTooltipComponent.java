@@ -5,6 +5,7 @@ import archives.tater.drinkingflask.component.FlaskContentsComponent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.item.ItemStack;
@@ -22,7 +23,7 @@ public record FlaskTooltipComponent(List<ItemStack> contents) implements Tooltip
     }
 
     @Override
-    public int getHeight() {
+    public int getHeight(TextRenderer textRenderer) {
         return 18 * ((contents.size() - 1) / MAX_COLUMNS + 1) + 4;
     }
 
@@ -32,7 +33,7 @@ public record FlaskTooltipComponent(List<ItemStack> contents) implements Tooltip
     }
 
     @Override
-    public void drawItems(TextRenderer textRenderer, int x, int y, DrawContext context) {
+    public void drawItems(TextRenderer textRenderer, int x, int y, int width, int height, DrawContext context) {
         int slots = contents.size();
         for (int slot = 0; slot < slots; ++slot) {
             drawSlot(x + (slot % MAX_COLUMNS) * 18, y + (slot / MAX_COLUMNS) * 18, slot, context, textRenderer);
@@ -41,9 +42,9 @@ public record FlaskTooltipComponent(List<ItemStack> contents) implements Tooltip
 
     private void drawSlot(int x, int y, int index, DrawContext context, TextRenderer textRenderer) {
         ItemStack itemStack = contents.get(index);
-        context.drawGuiTexture(TEXTURE, 18, 18, 0, 0, x, y, 18, 18);
+        context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, 18, 18, 0, 0, x, y, 18, 18);
         context.drawItem(itemStack, x + 1, y + 1, index);
-        context.drawItemInSlot(textRenderer, itemStack, x + 1, y + 1);
+        context.drawStackOverlay(textRenderer, itemStack, x + 1, y + 1);
     }
 
 }

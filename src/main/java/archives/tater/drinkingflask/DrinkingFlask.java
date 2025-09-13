@@ -2,7 +2,6 @@ package archives.tater.drinkingflask;
 
 import archives.tater.drinkingflask.registry.DrinkingFlaskComponents;
 import archives.tater.drinkingflask.registry.DrinkingFlaskItems;
-import archives.tater.drinkingflask.registry.DrinkingFlaskRecipes;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -25,7 +24,6 @@ public class DrinkingFlask implements ModInitializer {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
-        DrinkingFlaskRecipes.init();
         DrinkingFlaskComponents.init();
         DrinkingFlaskItems.init();
 	}

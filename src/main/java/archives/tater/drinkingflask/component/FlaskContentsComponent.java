@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipData;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.util.math.random.Random;
 
 import java.util.ArrayList;
@@ -59,5 +60,5 @@ public record FlaskContentsComponent(List<ItemStack> contents) implements Toolti
 
     public static final Codec<FlaskContentsComponent> CODEC = ItemStack.CODEC.sizeLimitedListOf(99).xmap(FlaskContentsComponent::new, FlaskContentsComponent::contents);
 
-    public static final PacketCodec<RegistryByteBuf, FlaskContentsComponent> PACKET_CODEC = ItemStack.LIST_PACKET_CODEC.xmap(FlaskContentsComponent::new, FlaskContentsComponent::contents);
+    public static final PacketCodec<RegistryByteBuf, FlaskContentsComponent> PACKET_CODEC = ItemStack.PACKET_CODEC.collect(PacketCodecs.toList(99)).xmap(FlaskContentsComponent::new, FlaskContentsComponent::contents);
 }

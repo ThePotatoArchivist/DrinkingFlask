@@ -4,8 +4,5 @@
   "item.drinkingflask.phantom_drinking_flask": "Phantom Drinking Flask",
   "tag.item.drinkingflask.can_pour_into_flask": "Can Pour into Flask",
   "tag.item.drinkingflask.double_size": "Double Size in Flask",
-  "tag.item.drinkingflask.flask_material": "Drinking Flask Material",
-  "tag.item.drinkingflask.remainder.bowl": "Bowl Remainder",
-  "tag.item.drinkingflask.remainder.bucket": "Bucket Remainder",
-  "tag.item.drinkingflask.remainder.glass_bottle": "Bottle Remainder"
+  "tag.item.drinkingflask.flask_material": "Drinking Flask Material"
 }

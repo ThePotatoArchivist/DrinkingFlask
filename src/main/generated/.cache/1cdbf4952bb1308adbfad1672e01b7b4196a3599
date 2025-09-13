@@ -1,8 +1,5 @@
-// 1.21.1	2025-09-13T01:09:56.037655213	DrinkingFlask/Recipes
-7f9d4ef77c97d5b25df3702126667d61ab866523 data/drinkingflask/advancement/recipes/tools/phantom_drinking_flask.json
-fc9d75eb731784db51659e427aaff97a818b7cac data/drinkingflask/recipe/remainder/glass_bottle.json
-c14a12b2d12bc018b4ef9e6a8296cacb6d5b7911 data/drinkingflask/recipe/drinking_flask.json
-85fc15649c43599e64ad265daaeceaae0474e8d4 data/drinkingflask/recipe/remainder/bucket.json
+// 1.21.8	-999999999-01-01T00:00:00	DrinkingFlask/Recipes
 85c7b645de9531ceee94b74b41f520fe67305ec9 data/drinkingflask/advancement/recipes/tools/drinking_flask.json
-849bbdbddfc4b12dfdb3e4caae95e257e9e78624 data/drinkingflask/recipe/phantom_drinking_flask.json
-9aa975574e0fa2c9b0fddeb03b52a907b6cc59c4 data/drinkingflask/recipe/remainder/bowl.json
+7f9d4ef77c97d5b25df3702126667d61ab866523 data/drinkingflask/advancement/recipes/tools/phantom_drinking_flask.json
+c3c7e5dbf7b5e4658a2dbbde59779fdad9f57ac7 data/drinkingflask/recipe/drinking_flask.json
+917b21b59e9f5f0272faf11c8bfa7e4a9283c1a0 data/drinkingflask/recipe/phantom_drinking_flask.json
