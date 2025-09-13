@@ -5,10 +5,6 @@
     {
       "id": "create:builders_tea",
       "required": false
-    },
-    {
-      "id": "farmersdelight:apple_cider",
-      "required": false
     }
   ]
 }

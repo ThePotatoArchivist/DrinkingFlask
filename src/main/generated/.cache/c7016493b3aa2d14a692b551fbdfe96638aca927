@@ -1,7 +1,7 @@
-// 1.21.1	2025-09-13T01:04:00.899529188	DrinkingFlask/Tags for minecraft:item
+// 1.21.1	2025-09-13T01:09:56.036248336	DrinkingFlask/Tags for minecraft:item
 edb5947f84984a39ab47c98c6fb0b3c3a9a8cc39 data/drinkingflask/tags/item/remainder/bucket.json
 47b6084f2537cb3988e504aade4fc8b21b310465 data/drinkingflask/tags/item/flask_material.json
-4ab346e3c7a44c83b991018b2e51338a7c400193 data/drinkingflask/tags/item/double_size.json
 3241f23fc2a494c56fafba9f5243c6f04c815b19 data/drinkingflask/tags/item/remainder/bowl.json
+9fe349b82f3074aabbf50557db0fe95e6d000362 data/drinkingflask/tags/item/double_size.json
 57d11194afb119fbe97ee81772dc50f423ceb75a data/drinkingflask/tags/item/can_pour_into_flask.json
 7ee5d5129f32a0d154b0e37808af4df030ef1e7a data/drinkingflask/tags/item/remainder/glass_bottle.json

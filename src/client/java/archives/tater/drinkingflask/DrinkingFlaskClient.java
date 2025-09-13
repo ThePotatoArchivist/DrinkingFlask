@@ -14,9 +14,6 @@ public class DrinkingFlaskClient implements ClientModInitializer {
 		TooltipComponentCallback.EVENT.register(data ->
 				data instanceof FlaskContentsComponent flaskData ? new FlaskTooltipComponent(flaskData) : null
 		);
-        ItemTooltipCallback.EVENT.register((stack, context, type, tooltip) -> {
-            if (stack.getItem() instanceof DrinkingFlaskItem)
-                DrinkingFlaskItem.appendTooltip(stack, context, type, tooltip);
-        });
+        ItemTooltipCallback.EVENT.register(DrinkingFlaskItem::appendTooltip);
 	}
 }
