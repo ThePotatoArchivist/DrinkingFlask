@@ -25,7 +25,6 @@ import net.minecraft.util.math.ColorHelper;
 import net.minecraft.world.World;
 
 import static java.lang.Math.min;
-import static java.util.Objects.requireNonNullElse;
 
 public class DrinkingFlaskItem extends Item {
 
@@ -68,9 +67,10 @@ public class DrinkingFlaskItem extends Item {
 
     public static ItemStack getRemainder(ItemStack stack) {
         var useRemainder = stack.get(DataComponentTypes.USE_REMAINDER);
-        if (useRemainder != null) return useRemainder.convertInto();
+        if (useRemainder != null) return useRemainder.convertInto().copy();
         var recipeRemainder = stack.getRecipeRemainder();
-        return requireNonNullElse(recipeRemainder, ItemStack.EMPTY);
+        if (recipeRemainder != null) return recipeRemainder.copy();
+        return ItemStack.EMPTY;
     }
 
     public static ItemStack insertStack(ItemStack flaskStack, ItemStack drinkStack, World world, PlayerEntity user) {
@@ -115,7 +115,7 @@ public class DrinkingFlaskItem extends Item {
             Criteria.CONSUME_ITEM.trigger(serverPlayerEntity, stack);
             serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
         }
-        if (!world.isClient) {
+        if (!world.isClient()) {
             var chosen = FlaskContentsComponent.popRandom(stack, DrinkingFlaskComponents.FLASK_CONTENTS, user.getRandom());
             chosen.finishUsing(world, user);
         }
@@ -148,7 +148,7 @@ public class DrinkingFlaskItem extends Item {
         if (!canInsert(otherStack)) return false;
         if (!itemFits(stack, otherStack)) return false;
 
-        cursorStackReference.set(insertStack(stack, otherStack, player.getWorld(), player));
+        cursorStackReference.set(insertStack(stack, otherStack, player.getEntityWorld(), player));
 
         return true;
     }
@@ -162,7 +162,7 @@ public class DrinkingFlaskItem extends Item {
         if (!canInsert(otherStack)) return false;
         if (!itemFits(stack, otherStack)) return false;
 
-        slot.setStack(insertStack(stack, otherStack, player.getWorld(), player));
+        slot.setStack(insertStack(stack, otherStack, player.getEntityWorld(), player));
         return true;
     }
 
