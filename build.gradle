@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.11-SNAPSHOT'
+	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -55,7 +55,7 @@ processResources {
 	inputs.property "version", project.version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "version": input.properties.version
 	}
 }
 
@@ -75,7 +75,7 @@ java {
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}"}
+		rename { "${it}_${inputs.properties.archivesName}"}
 	}
 }
 
@@ -86,7 +86,8 @@ runDatagen {
 // configure the maven publication
 publishing {
 	publications {
-		mavenJava(MavenPublication) {
+		create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
 			from components.java
 		}
 	}

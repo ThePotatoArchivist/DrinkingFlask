@@ -31,7 +31,7 @@ public class DrinkingFlaskItem extends Item {
     private static final int ITEM_BAR_COLOR = ColorHelper.fromFloats(1f, 0.4f, 0.4f, 1.0f);
     private static final ConsumableComponent FAKE_CONSUMABLE = ConsumableComponents.drink().consumeSeconds(2f).build();
 
-    public DrinkingFlaskItem(Settings settings) {
+    public DrinkingFlaskItem(Item.Settings settings) {
         super(settings);
     }
 

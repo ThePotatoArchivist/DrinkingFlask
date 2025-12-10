@@ -1,12 +1,13 @@
 package archives.tater.drinkingflask.item;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipData;
 
 import java.util.Optional;
 
 public class PhantomDrinkingFlaskItem extends DrinkingFlaskItem {
-    public PhantomDrinkingFlaskItem(Settings settings) {
+    public PhantomDrinkingFlaskItem(Item.Settings settings) {
         super(settings);
     }
 
