@@ -1,15 +1,15 @@
 package archives.tater.drinkingflask.registry;
 
 import archives.tater.drinkingflask.DrinkingFlask;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 
 public class DrinkingFlaskItemTags {
 
     private static TagKey<Item> of(Identifier id) {
-        return TagKey.of(RegistryKeys.ITEM, id);
+        return TagKey.create(Registries.ITEM, id);
     }
 
     private static TagKey<Item> of(String path) {

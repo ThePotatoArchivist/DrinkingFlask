@@ -4,25 +4,24 @@ import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Items;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
-    public ItemTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+    public ItemTagGenerator(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, completableFuture);
     }
 
     private static List<Identifier> ids(String name, String... paths) {
-        return Stream.of(paths).map(path -> Identifier.of(name, path)).toList();
+        return Stream.of(paths).map(path -> Identifier.fromNamespaceAndPath(name, path)).toList();
     }
 
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup arg) {
+    protected void addTags(HolderLookup.Provider arg) {
         valueLookupBuilder(DrinkingFlaskItemTags.FLASK_MATERIAL)
                 .forceAddTag(ConventionalItemTags.LEATHERS)
                 .add(Items.RABBIT_HIDE);
@@ -58,13 +57,13 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
                         Items.BEETROOT_SOUP,
                         Items.SUSPICIOUS_STEW
                 );
-        var canPour = getTagBuilder(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK);
+        var canPour = getOrCreateRawBuilder(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK);
         farmersDelightStews.forEach(canPour::addOptional);
         farmersDelightDrinks.forEach(canPour::addOptional);
 
         valueLookupBuilder(DrinkingFlaskItemTags.DOUBLE_SIZE)
                 .add(Items.POTION, Items.MILK_BUCKET);
-        getTagBuilder(DrinkingFlaskItemTags.DOUBLE_SIZE)
-                .addOptional(Identifier.of("create", "builders_tea"));
+        getOrCreateRawBuilder(DrinkingFlaskItemTags.DOUBLE_SIZE)
+                .addOptional(Identifier.fromNamespaceAndPath("create", "builders_tea"));
     }
 }

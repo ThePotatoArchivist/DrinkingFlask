@@ -3,9 +3,9 @@ package archives.tater.drinkingflask.datagen;
 import archives.tater.drinkingflask.registry.DrinkingFlaskItems;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.client.data.BlockStateModelGenerator;
-import net.minecraft.client.data.ItemModelGenerator;
-import net.minecraft.client.data.Models;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.ModelTemplates;
 
 public class ModelGenerator extends FabricModelProvider {
 
@@ -14,13 +14,13 @@ public class ModelGenerator extends FabricModelProvider {
     }
 
     @Override
-    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+    public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {
 
     }
 
     @Override
-    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(DrinkingFlaskItems.DRINKING_FLASK, Models.GENERATED);
-        itemModelGenerator.register(DrinkingFlaskItems.PHANTOM_DRINKING_FLASK, Models.GENERATED);
+    public void generateItemModels(ItemModelGenerators itemModelGenerator) {
+        itemModelGenerator.generateFlatItem(DrinkingFlaskItems.DRINKING_FLASK, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(DrinkingFlaskItems.PHANTOM_DRINKING_FLASK, ModelTemplates.FLAT_ITEM);
     }
 }
