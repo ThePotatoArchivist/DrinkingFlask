@@ -21,5 +21,6 @@ public class DrinkingFlaskItemTags {
     public static final TagKey<Item> BOTTLE_REMAINDER = of("remainder/glass_bottle");
     public static final TagKey<Item> BOWL_REMAINDER = of("remainder/bowl");
     public static final TagKey<Item> BUCKET_REMAINDER = of("remainder/bucket");
+    public static final TagKey<Item> TANKARD_REMAINDER = of("remainder/bnc_tankard");
     public static final TagKey<Item> DOUBLE_SIZE = of("double_size");
 }

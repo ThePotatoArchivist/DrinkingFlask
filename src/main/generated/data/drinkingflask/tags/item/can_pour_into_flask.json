@@ -3,6 +3,7 @@
     "#drinkingflask:remainder/glass_bottle",
     "#drinkingflask:remainder/bowl",
     "#drinkingflask:remainder/bucket",
+    "#drinkingflask:remainder/bnc_tankard",
     "minecraft:ominous_bottle"
   ]
 }

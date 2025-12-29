@@ -7,23 +7,24 @@
       "required": false
     },
     {
-      "id": "farmersdelight:apple_cider",
-      "required": false
-    },
-    {
-      "id": "farmersdelight:melon_juice",
-      "required": false
-    },
-    {
-      "id": "farmersdelight:hot_cocoa",
-      "required": false
-    },
-    {
-      "id": "farmersdelight:milk_bottle",
-      "required": false
-    },
-    {
       "id": "farmersdelight:glow_berry_custard",
+      "required": false
+    },
+    "#farmersdelight:drinks",
+    {
+      "id": "enderscape:drift_jelly_bottle",
+      "required": false
+    },
+    {
+      "id": "brewinandchewin:sweet_berry_jam",
+      "required": false
+    },
+    {
+      "id": "brewinandchewin:glow_berry_marmalade",
+      "required": false
+    },
+    {
+      "id": "brewinandchewin:apple_jelly",
       "required": false
     }
   ]
