@@ -2,6 +2,7 @@
   "item.drinkingflask.drinking_flask": "Drinking Flask",
   "item.drinkingflask.drinking_flask.fullness": "%s/%s",
   "item.drinkingflask.phantom_drinking_flask": "Phantom Drinking Flask",
+  "subtitles.item.drinkingflask.drinking_flask.fill": "Drinking flask fills",
   "tag.item.drinkingflask.can_pour_into_flask": "Can Pour into Flask",
   "tag.item.drinkingflask.double_size": "Double Size in Flask",
   "tag.item.drinkingflask.flask_material": "Drinking Flask Material"

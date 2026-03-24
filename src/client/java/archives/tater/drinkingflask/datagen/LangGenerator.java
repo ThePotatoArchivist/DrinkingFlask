@@ -25,5 +25,6 @@ public class LangGenerator extends FabricLanguageProvider {
         translationBuilder.add(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK, "Can Pour into Flask");
         translationBuilder.add(DrinkingFlaskItemTags.DOUBLE_SIZE, "Double Size in Flask");
         translationBuilder.add(DrinkingFlaskItemTags.FLASK_MATERIAL, "Drinking Flask Material");
+        translationBuilder.add(SoundsGenerator.FLASK_FILL_SUBTITLE, "Drinking flask fills");
     }
 }

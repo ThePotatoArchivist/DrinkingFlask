@@ -3,10 +3,11 @@ package archives.tater.drinkingflask.item;
 import archives.tater.drinkingflask.component.FlaskContentsComponent;
 import archives.tater.drinkingflask.registry.DrinkingFlaskComponents;
 import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
+import archives.tater.drinkingflask.registry.DrinkingFlaskSounds;
+
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.InteractionHand;
@@ -74,8 +75,7 @@ public class DrinkingFlaskItem extends Item {
         var remainder = getRemainder(drinkStack);
         FlaskContentsComponent.add(flaskStack, DrinkingFlaskComponents.FLASK_CONTENTS, drinkStack.consumeAndReturn(1, user));
 
-        // TODO add custom sound effect
-        user.playSound(SoundEvents.BOTTLE_FILL, 1f, 0.2f * world.getRandom().nextFloat() + 0.6f);
+        user.playSound(DrinkingFlaskSounds.FLASK_FILL, 1f, 0.2f * world.getRandom().nextFloat() + 0.6f);
 
         if (user.hasInfiniteMaterials())
             return drinkStack;

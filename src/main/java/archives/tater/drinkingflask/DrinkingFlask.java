@@ -2,6 +2,8 @@ package archives.tater.drinkingflask;
 
 import archives.tater.drinkingflask.registry.DrinkingFlaskComponents;
 import archives.tater.drinkingflask.registry.DrinkingFlaskItems;
+import archives.tater.drinkingflask.registry.DrinkingFlaskSounds;
+
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
@@ -26,5 +28,6 @@ public class DrinkingFlask implements ModInitializer {
 		// Proceed with mild caution.
         DrinkingFlaskComponents.init();
         DrinkingFlaskItems.init();
+        DrinkingFlaskSounds.init();
 	}
 }
