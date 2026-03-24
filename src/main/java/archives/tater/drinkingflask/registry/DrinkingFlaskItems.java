@@ -13,6 +13,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+
 import java.util.function.Function;
 
 public class DrinkingFlaskItems {
@@ -37,8 +39,7 @@ public class DrinkingFlaskItems {
 
     public static void init() {
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(output -> {
-            output.accept(DrinkingFlaskItems.DRINKING_FLASK);
-            output.accept(DrinkingFlaskItems.PHANTOM_DRINKING_FLASK);
+            output.insertAfter(Items.PINK_BUNDLE, DrinkingFlaskItems.DRINKING_FLASK, DrinkingFlaskItems.PHANTOM_DRINKING_FLASK);
         });
     }
 }

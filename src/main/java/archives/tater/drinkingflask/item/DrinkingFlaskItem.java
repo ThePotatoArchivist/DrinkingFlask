@@ -45,7 +45,7 @@ public class DrinkingFlaskItem extends Item {
         return stack.is(DrinkingFlaskItemTags.DOUBLE_SIZE) ? 2 : 1;
     }
 
-    public static Integer getCapacity(ItemStack flaskStack) {
+    public static int getCapacity(ItemStack flaskStack) {
         return flaskStack.getOrDefault(DrinkingFlaskComponents.FLASK_CAPACITY, 0);
     }
 
@@ -58,7 +58,7 @@ public class DrinkingFlaskItem extends Item {
     }
 
     public static boolean itemFits(ItemStack flaskStack, ItemStack drinkStack) {
-        int maxSize = getCapacity(flaskStack);
+        var maxSize = getCapacity(flaskStack);
         var contents = getContents(flaskStack);
         return contents.getSize() + getDrinkSize(drinkStack) <= maxSize;
     }
@@ -71,11 +71,11 @@ public class DrinkingFlaskItem extends Item {
         return ItemStack.EMPTY;
     }
 
-    public static ItemStack insertStack(ItemStack flaskStack, ItemStack drinkStack, Level world, Player user) {
+    public static ItemStack insertStack(ItemStack flaskStack, ItemStack drinkStack, Level level, Player user) {
         var remainder = getRemainder(drinkStack);
         FlaskContentsComponent.add(flaskStack, DrinkingFlaskComponents.FLASK_CONTENTS, drinkStack.consumeAndReturn(1, user));
 
-        user.playSound(DrinkingFlaskSounds.FLASK_FILL, 1f, 0.2f * world.getRandom().nextFloat() + 0.6f);
+        user.playSound(DrinkingFlaskSounds.FLASK_FILL, 1f, 0.2f * level.getRandom().nextFloat() + 0.6f);
 
         if (user.hasInfiniteMaterials())
             return drinkStack;
@@ -88,7 +88,7 @@ public class DrinkingFlaskItem extends Item {
     }
 
     @Override
-    public InteractionResult use(Level world, Player user, InteractionHand hand) {
+    public InteractionResult use(Level level, Player user, InteractionHand hand) {
         var flaskStack = user.getItemInHand(hand);
         var otherHand = hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
         var drinkStack = user.getItemInHand(otherHand);
@@ -97,24 +97,24 @@ public class DrinkingFlaskItem extends Item {
             if (getContents(flaskStack).isEmpty())
                 return InteractionResult.FAIL;
 
-            return ItemUtils.startUsingInstantly(world, user, hand);
+            return ItemUtils.startUsingInstantly(level, user, hand);
         }
 
-        user.setItemInHand(otherHand, insertStack(flaskStack, drinkStack, world, user));
+        user.setItemInHand(otherHand, insertStack(flaskStack, drinkStack, level, user));
 
         return InteractionResult.SUCCESS.heldItemTransformedTo(flaskStack);
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
-        super.finishUsingItem(stack, world, user);
+    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
+        super.finishUsingItem(stack, level, user);
         if (user instanceof ServerPlayer serverPlayerEntity) {
             CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayerEntity, stack);
             serverPlayerEntity.awardStat(Stats.ITEM_USED.get(this));
         }
-        if (!world.isClientSide()) {
+        if (!level.isClientSide()) {
             var chosen = FlaskContentsComponent.popRandom(stack, DrinkingFlaskComponents.FLASK_CONTENTS, user.getRandom());
-            chosen.finishUsingItem(world, user);
+            chosen.finishUsingItem(level, user);
         }
         return stack;
     }
@@ -130,8 +130,8 @@ public class DrinkingFlaskItem extends Item {
     }
 
     @Override
-    public void onUseTick(Level world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-        super.onUseTick(world, user, stack, remainingUseTicks);
+    public void onUseTick(Level level, LivingEntity user, ItemStack stack, int remainingUseTicks) {
+        super.onUseTick(level, user, stack, remainingUseTicks);
 
         if (FAKE_CONSUMABLE.shouldEmitParticlesAndSounds(remainingUseTicks)) {
             FAKE_CONSUMABLE.emitParticlesAndSounds(user.getRandom(), user, stack, 0);
@@ -154,7 +154,7 @@ public class DrinkingFlaskItem extends Item {
     public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction clickType, Player player) {
         if (clickType != ClickAction.PRIMARY) return false;
 
-        ItemStack otherStack = slot.getItem();
+        var otherStack = slot.getItem();
 
         if (!canInsert(otherStack)) return false;
         if (!itemFits(stack, otherStack)) return false;
@@ -170,9 +170,9 @@ public class DrinkingFlaskItem extends Item {
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        int maxSize = getCapacity(stack);
+        var maxSize = getCapacity(stack);
         if (maxSize <= 0) return 0;
-        int size = getFlaskSize(stack);
+        var size = getFlaskSize(stack);
         if (size == 0) return 0;
         if (size == maxSize) return 13;
         return min(11 * (size - 1) / (maxSize - 2), 11) + 1;

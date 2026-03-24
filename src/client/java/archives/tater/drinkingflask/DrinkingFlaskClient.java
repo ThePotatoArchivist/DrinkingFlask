@@ -1,6 +1,6 @@
 package archives.tater.drinkingflask;
 
-import archives.tater.drinkingflask.client.gui.FlaskTooltipComponent;
+import archives.tater.drinkingflask.client.gui.ClientFlaskTooltip;
 import archives.tater.drinkingflask.component.FlaskContentsComponent;
 import archives.tater.drinkingflask.item.DrinkingFlaskItem;
 
@@ -18,7 +18,7 @@ public class DrinkingFlaskClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
         ClientTooltipComponentCallback.EVENT.register(component ->
-				component instanceof FlaskContentsComponent flaskData ? new FlaskTooltipComponent(flaskData) : null
+				component instanceof FlaskContentsComponent flaskData ? new ClientFlaskTooltip(flaskData) : null
         );
         ItemTooltipCallback.EVENT.register((stack, context, type, tooltip) -> {
             int maxSize = DrinkingFlaskItem.getCapacity(stack);

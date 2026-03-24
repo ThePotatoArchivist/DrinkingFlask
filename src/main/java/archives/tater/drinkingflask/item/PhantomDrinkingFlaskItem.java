@@ -1,9 +1,10 @@
 package archives.tater.drinkingflask.item;
 
-import java.util.Optional;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.Optional;
 
 public class PhantomDrinkingFlaskItem extends DrinkingFlaskItem {
     public PhantomDrinkingFlaskItem(Item.Properties settings) {

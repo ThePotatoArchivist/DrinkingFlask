@@ -33,8 +33,8 @@ public record FlaskContentsComponent(List<ItemStackTemplate> contents) implement
 
     public static ItemStack popRandom(ItemStack container, DataComponentType<FlaskContentsComponent> type, RandomSource random) {
         var component = container.getOrDefault(type, DEFAULT);
+        if (component.contents.isEmpty()) return ItemStack.EMPTY;
         var contents = new ArrayList<>(component.contents);
-        if (contents.isEmpty()) return ItemStack.EMPTY;
         var stack = contents.remove(random.nextInt(contents.size()));
         container.set(type, new FlaskContentsComponent(contents));
         return stack.create();
