@@ -24,7 +24,7 @@ public class DrinkingFlaskComponents {
     }
 
     public static final DataComponentType<Integer> FLASK_CAPACITY = register("flask_capacity", Codec.intRange(1, 99), ByteBufCodecs.INT, false);
-    public static final DataComponentType<FlaskContentsComponent> FLASK_CONTENTS = register("flask_contents", FlaskContentsComponent.CODEC, FlaskContentsComponent.PACKET_CODEC, true);
+    public static final DataComponentType<FlaskContentsComponent> FLASK_CONTENTS = register("flask_contents", FlaskContentsComponent.CODEC, FlaskContentsComponent.STREAM_CODEC, true);
 
     public static void init() {
 

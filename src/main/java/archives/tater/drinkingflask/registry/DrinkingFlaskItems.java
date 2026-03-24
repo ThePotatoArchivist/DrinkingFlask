@@ -3,7 +3,9 @@ package archives.tater.drinkingflask.registry;
 import archives.tater.drinkingflask.DrinkingFlask;
 import archives.tater.drinkingflask.item.DrinkingFlaskItem;
 import archives.tater.drinkingflask.item.PhantomDrinkingFlaskItem;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -34,9 +36,9 @@ public class DrinkingFlaskItems {
     );
 
     public static void init() {
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(entries -> {
-            entries.accept(DrinkingFlaskItems.DRINKING_FLASK);
-            entries.accept(DrinkingFlaskItems.PHANTOM_DRINKING_FLASK);
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(output -> {
+            output.accept(DrinkingFlaskItems.DRINKING_FLASK);
+            output.accept(DrinkingFlaskItems.PHANTOM_DRINKING_FLASK);
         });
     }
 }

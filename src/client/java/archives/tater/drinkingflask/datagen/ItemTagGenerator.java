@@ -1,18 +1,21 @@
 package archives.tater.drinkingflask.datagen;
 
 import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
-public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
-    public ItemTagGenerator(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
+public class ItemTagGenerator extends FabricTagsProvider.ItemTagsProvider {
+    public ItemTagGenerator(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, completableFuture);
     }
 
@@ -58,12 +61,12 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
                         Items.SUSPICIOUS_STEW
                 );
         var canPour = getOrCreateRawBuilder(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK);
-        farmersDelightStews.forEach(canPour::addOptional);
-        farmersDelightDrinks.forEach(canPour::addOptional);
+        farmersDelightStews.forEach(canPour::addOptionalElement);
+        farmersDelightDrinks.forEach(canPour::addOptionalElement);
 
         valueLookupBuilder(DrinkingFlaskItemTags.DOUBLE_SIZE)
                 .add(Items.POTION, Items.MILK_BUCKET);
         getOrCreateRawBuilder(DrinkingFlaskItemTags.DOUBLE_SIZE)
-                .addOptional(Identifier.fromNamespaceAndPath("create", "builders_tea"));
+                .addOptionalElement(Identifier.fromNamespaceAndPath("create", "builders_tea"));
     }
 }

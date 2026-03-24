@@ -1,9 +1,8 @@
 package archives.tater.drinkingflask.component;
 
 import archives.tater.drinkingflask.item.DrinkingFlaskItem;
+
 import com.mojang.serialization.Codec;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -11,8 +10,12 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 
-public record FlaskContentsComponent(List<ItemStack> contents) implements TooltipComponent {
+import java.util.ArrayList;
+import java.util.List;
+
+public record FlaskContentsComponent(List<ItemStackTemplate> contents) implements TooltipComponent {
 
     public int getSize() {
         return contents.stream().mapToInt(DrinkingFlaskItem::getDrinkSize).sum();
@@ -24,22 +27,8 @@ public record FlaskContentsComponent(List<ItemStack> contents) implements Toolti
 
     public FlaskContentsComponent withAdded(ItemStack stack) {
         var newContents = new ArrayList<>(contents);
-        newContents.add(stack);
+        newContents.add(ItemStackTemplate.fromNonEmptyStack(stack));
         return new FlaskContentsComponent(newContents);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        FlaskContentsComponent component = (FlaskContentsComponent) o;
-        return ItemStack.listMatches(this.contents, component.contents);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public int hashCode() {
-        return ItemStack.hashStackList(contents);
     }
 
     public static ItemStack popRandom(ItemStack container, DataComponentType<FlaskContentsComponent> type, RandomSource random) {
@@ -48,7 +37,7 @@ public record FlaskContentsComponent(List<ItemStack> contents) implements Toolti
         if (contents.isEmpty()) return ItemStack.EMPTY;
         var stack = contents.remove(random.nextInt(contents.size()));
         container.set(type, new FlaskContentsComponent(contents));
-        return stack;
+        return stack.create();
     }
 
     public static void add(ItemStack container, DataComponentType<FlaskContentsComponent> type, ItemStack stack) {
@@ -57,7 +46,7 @@ public record FlaskContentsComponent(List<ItemStack> contents) implements Toolti
 
     public static final FlaskContentsComponent DEFAULT = new FlaskContentsComponent(List.of());
 
-    public static final Codec<FlaskContentsComponent> CODEC = ItemStack.CODEC.sizeLimitedListOf(99).xmap(FlaskContentsComponent::new, FlaskContentsComponent::contents);
+    public static final Codec<FlaskContentsComponent> CODEC = ItemStackTemplate.CODEC.sizeLimitedListOf(99).xmap(FlaskContentsComponent::new, FlaskContentsComponent::contents);
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, FlaskContentsComponent> PACKET_CODEC = ItemStack.STREAM_CODEC.apply(ByteBufCodecs.list(99)).map(FlaskContentsComponent::new, FlaskContentsComponent::contents);
+    public static final StreamCodec<RegistryFriendlyByteBuf, FlaskContentsComponent> STREAM_CODEC = ItemStackTemplate.STREAM_CODEC.apply(ByteBufCodecs.list(99)).map(FlaskContentsComponent::new, FlaskContentsComponent::contents);
 }

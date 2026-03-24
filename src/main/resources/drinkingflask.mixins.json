@@ -1,10 +1,10 @@
 {
   "required": true,
   "package": "archives.tater.drinkingflask.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }

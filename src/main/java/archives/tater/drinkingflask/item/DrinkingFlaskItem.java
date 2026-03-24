@@ -16,10 +16,7 @@ import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUseAnimation;
-import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.level.Level;
@@ -43,7 +40,7 @@ public class DrinkingFlaskItem extends Item {
         return getContents(stack).getSize();
     }
 
-    public static int getDrinkSize(ItemStack stack) {
+    public static int getDrinkSize(ItemInstance stack) {
         return stack.is(DrinkingFlaskItemTags.DOUBLE_SIZE) ? 2 : 1;
     }
 
@@ -67,9 +64,9 @@ public class DrinkingFlaskItem extends Item {
 
     public static ItemStack getRemainder(ItemStack stack) {
         var useRemainder = stack.get(DataComponents.USE_REMAINDER);
-        if (useRemainder != null) return useRemainder.convertInto().copy();
-        var recipeRemainder = stack.getRecipeRemainder();
-        if (recipeRemainder != null) return recipeRemainder.copy();
+        if (useRemainder != null) return useRemainder.convertInto().create();
+        var recipeRemainder = stack.getCraftingRemainder();
+        if (recipeRemainder != null) return recipeRemainder.create();
         return ItemStack.EMPTY;
     }
 
@@ -78,7 +75,7 @@ public class DrinkingFlaskItem extends Item {
         FlaskContentsComponent.add(flaskStack, DrinkingFlaskComponents.FLASK_CONTENTS, drinkStack.consumeAndReturn(1, user));
 
         // TODO add custom sound effect
-        user.playSound(SoundEvents.BOTTLE_FILL, 1f, 0.2f * world.random.nextFloat() + 0.6f);
+        user.playSound(SoundEvents.BOTTLE_FILL, 1f, 0.2f * world.getRandom().nextFloat() + 0.6f);
 
         if (user.hasInfiniteMaterials())
             return drinkStack;
