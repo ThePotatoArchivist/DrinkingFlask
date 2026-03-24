@@ -11,10 +11,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BundleItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 
+import java.util.List;
 import java.util.function.Function;
 
 public class DrinkingFlaskItems {
@@ -38,8 +40,12 @@ public class DrinkingFlaskItems {
     );
 
     public static void init() {
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.FOOD_AND_DRINKS).register(output -> {
-            output.insertAfter(Items.PINK_BUNDLE, DrinkingFlaskItems.DRINKING_FLASK, DrinkingFlaskItems.PHANTOM_DRINKING_FLASK);
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(output -> {
+            output.insertAfter(
+                    item -> item.getItem() instanceof BundleItem,
+                    List.of(DrinkingFlaskItems.DRINKING_FLASK.getDefaultInstance(), DrinkingFlaskItems.PHANTOM_DRINKING_FLASK.getDefaultInstance()),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
+            );
         });
     }
 }
