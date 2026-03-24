@@ -19,10 +19,10 @@
             "archives.tater.drinkingflask.DrinkingFlask"
         ],
         "client": [
-            "archives.tater.drinkingflask.DrinkingFlaskClient"
+            "archives.tater.drinkingflask.client.DrinkingFlaskClient"
         ],
         "fabric-datagen": [
-            "archives.tater.drinkingflask.DrinkingFlaskDataGenerator"
+            "archives.tater.drinkingflask.datagen.DrinkingFlaskDataGenerator"
         ]
     },
     "mixins": [

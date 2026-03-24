@@ -1,4 +1,4 @@
-package archives.tater.drinkingflask;
+package archives.tater.drinkingflask.client;
 
 import archives.tater.drinkingflask.client.gui.ClientFlaskTooltip;
 import archives.tater.drinkingflask.component.FlaskContentsComponent;

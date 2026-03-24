@@ -1,6 +1,4 @@
-package archives.tater.drinkingflask;
-
-import archives.tater.drinkingflask.datagen.*;
+package archives.tater.drinkingflask.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;

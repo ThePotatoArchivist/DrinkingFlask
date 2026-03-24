@@ -1,6 +1,6 @@
 package archives.tater.drinkingflask.datagen;
 
-import archives.tater.drinkingflask.DrinkingFlaskClient;
+import archives.tater.drinkingflask.client.DrinkingFlaskClient;
 import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
 import archives.tater.drinkingflask.registry.DrinkingFlaskItems;
 
