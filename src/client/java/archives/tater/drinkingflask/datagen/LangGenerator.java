@@ -1,6 +1,6 @@
 package archives.tater.drinkingflask.datagen;
 
-import archives.tater.drinkingflask.client.DrinkingFlaskClient;
+import archives.tater.drinkingflask.component.FlaskContentsComponent;
 import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
 import archives.tater.drinkingflask.registry.DrinkingFlaskItems;
 
@@ -21,7 +21,7 @@ public class LangGenerator extends FabricLanguageProvider {
     public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder translationBuilder) {
         translationBuilder.add(DrinkingFlaskItems.DRINKING_FLASK, "Drinking Flask");
         translationBuilder.add(DrinkingFlaskItems.PHANTOM_DRINKING_FLASK, "Phantom Drinking Flask");
-        translationBuilder.add(DrinkingFlaskClient.FULLNESS_TRANSLATION, "%s/%s");
+        translationBuilder.add(FlaskContentsComponent.FULLNESS_TRANSLATION, "%s/%s");
         translationBuilder.add(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK, "Can Pour into Flask");
         translationBuilder.add(DrinkingFlaskItemTags.DOUBLE_SIZE, "Double Size in Flask");
         translationBuilder.add(DrinkingFlaskItemTags.FLASK_MATERIAL, "Drinking Flask Material");

@@ -6,6 +6,7 @@ import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
 import archives.tater.drinkingflask.registry.DrinkingFlaskSounds;
 
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -45,7 +46,7 @@ public class DrinkingFlaskItem extends Item {
         return stack.is(DrinkingFlaskItemTags.DOUBLE_SIZE) ? 2 : 1;
     }
 
-    public static int getCapacity(ItemStack flaskStack) {
+    public static int getCapacity(DataComponentGetter flaskStack) {
         return flaskStack.getOrDefault(DrinkingFlaskComponents.FLASK_CAPACITY, 0);
     }
 
