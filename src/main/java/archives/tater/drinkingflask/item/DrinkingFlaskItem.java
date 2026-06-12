@@ -5,7 +5,7 @@ import archives.tater.drinkingflask.registry.DrinkingFlaskComponents;
 import archives.tater.drinkingflask.registry.DrinkingFlaskItemTags;
 import archives.tater.drinkingflask.registry.DrinkingFlaskSounds;
 
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;

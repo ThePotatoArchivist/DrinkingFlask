@@ -7,8 +7,8 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.references.ItemIds;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.Items;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -25,9 +25,9 @@ public class ItemTagGenerator extends FabricTagsProvider.ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider arg) {
-        valueLookupBuilder(DrinkingFlaskItemTags.FLASK_MATERIAL)
+        builder(DrinkingFlaskItemTags.FLASK_MATERIAL)
                 .forceAddTag(ConventionalItemTags.LEATHERS)
-                .add(Items.RABBIT_HIDE);
+                .add(ItemIds.RABBIT_HIDE);
 
         var farmersDelightStews = ids("farmersdelight",
                 "tomato_sauce",
@@ -49,23 +49,22 @@ public class ItemTagGenerator extends FabricTagsProvider.ItemTagsProvider {
                 "glow_berry_custard"
         );
 
-        valueLookupBuilder(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK)
-                .add(
-                        Items.OMINOUS_BOTTLE,
-                        Items.MILK_BUCKET,
-                        Items.POTION,
-                        Items.HONEY_BOTTLE,
-                        Items.MUSHROOM_STEW,
-                        Items.RABBIT_STEW,
-                        Items.BEETROOT_SOUP,
-                        Items.SUSPICIOUS_STEW
-                );
+        builder(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK)
+                .add(ItemIds.OMINOUS_BOTTLE)
+                .add(ItemIds.MILK_BUCKET)
+                .add(ItemIds.POTION)
+                .add(ItemIds.HONEY_BOTTLE)
+                .add(ItemIds.MUSHROOM_STEW)
+                .add(ItemIds.RABBIT_STEW)
+                .add(ItemIds.BEETROOT_SOUP)
+                .add(ItemIds.SUSPICIOUS_STEW);
         var canPour = getOrCreateRawBuilder(DrinkingFlaskItemTags.CAN_POUR_INTO_FLASK);
         farmersDelightStews.forEach(canPour::addOptionalElement);
         farmersDelightDrinks.forEach(canPour::addOptionalElement);
 
-        valueLookupBuilder(DrinkingFlaskItemTags.DOUBLE_SIZE)
-                .add(Items.POTION, Items.MILK_BUCKET);
+        builder(DrinkingFlaskItemTags.DOUBLE_SIZE)
+                .add(ItemIds.POTION)
+                .add(ItemIds.MILK_BUCKET);
         getOrCreateRawBuilder(DrinkingFlaskItemTags.DOUBLE_SIZE)
                 .addOptionalElement(Identifier.fromNamespaceAndPath("create", "builders_tea"));
     }
