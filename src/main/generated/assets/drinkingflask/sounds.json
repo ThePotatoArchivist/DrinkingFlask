@@ -1,0 +1,11 @@
+{
+  "item.drinking_flask.fill": {
+    "sounds": [
+      "minecraft:item/bottle/fill1",
+      "minecraft:item/bottle/fill2",
+      "minecraft:item/bottle/fill3",
+      "minecraft:item/bottle/fill4"
+    ],
+    "subtitle": "subtitles.item.drinkingflask.drinking_flask.fill"
+  }
+}
